@@ -34,6 +34,10 @@ app.get("/", (req, res) => {
   res.json("Bienvenue sur l'API de Vinted");
 });
 
+app.use(function (err, req, res, next) {
+  res.json({ error: err.message });
+});
+
 const server = app.listen(process.env.PORT, () => {
   console.log("Server started");
 });
