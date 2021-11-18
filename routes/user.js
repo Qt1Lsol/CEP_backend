@@ -180,7 +180,7 @@ router.get("/reset-users", async (req, res) => {
       }
 
       // Random Users
-      for (let i = 0; i < owners.length; i++) {
+      for (let i = 0; i < 20; i++) {
         try {
           // Étape 1 : encrypter le mot de passe
           // Générer le token et encrypter le mot de passe
@@ -195,14 +195,14 @@ router.get("/reset-users", async (req, res) => {
             hash: hash,
             salt: salt,
             account: {
-              username: owners[i].owner_name || faker.internet.userName(),
+              username: faker.internet.userName(),
               phone: faker.phone.phoneNumber("06########"),
             },
           });
 
           // Étape 3 : uploader la photo de profile du user
           const resultImage = await cloudinary.uploader.upload(
-            owners[i].owner_image || faker.random.image(),
+            faker.random.image(),
             {
               folder: `api/vinted/users/${newUser._id}`,
               public_id: "avatar",
