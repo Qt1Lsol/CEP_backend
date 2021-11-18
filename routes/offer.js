@@ -17,7 +17,6 @@ const isAuthenticated = require("../middleware/isAuthenticated");
 
 // Import des datas (ne pas en tenir compte, cela sert au reset de la BDD entre 2 sessions de formation)
 const products = require("../data/products.json");
-const goScrapp = require("../middleware/scrapping");
 
 // Route qui nous permet de récupérer une liste d'annonces, en fonction de filtres
 // Si aucun filtre n'est envoyé, cette route renverra l'ensemble des annonces
@@ -102,16 +101,8 @@ router.get("/offer/:id", async (req, res) => {
 router.post("/offer/publish", isAuthenticated, async (req, res) => {
   // route qui permet de poster une nouvelle annonce
   try {
-    const {
-      title,
-      description,
-      price,
-      brand,
-      size,
-      condition,
-      color,
-      city,
-    } = req.fields;
+    const { title, description, price, brand, size, condition, color, city } =
+      req.fields;
 
     console.log(req.fields);
 
@@ -244,35 +235,25 @@ router.delete("/offer/delete/:id", isAuthenticated, async (req, res) => {
 // RESET ET INITIALISATION BDD
 router.get("/reset-offers", async (req, res) => {
   const allUserId = await User.find().select("_id");
-  // console.log(allUserId);
-  if (allUserId.length === 0) {
-    return res.send(
-      "Il faut d'abord reset la BDD de users. Voir la route /reset-users"
-    );
+  // Il y a 21 users dans le fichier owners.json
+  if (allUserId.length > 21) {
+    return res
+      .status(400)
+      .send(
+        "Il faut d'abord reset la BDD de users. Voir la route /reset-users"
+      );
   } else {
     // Vider la collection Offer
     await Offer.deleteMany({});
 
-    // Supprimer le dossier "api/vinted/offers" sur cloudinary
-    // Pour cela, il faut supprimer les images, cloudinary ne permettant pas de supprimer des dossiers qui ne sont pas vides
+    // Supprimer les images du dossier "api/vinted/offers" sur cloudinary
     try {
-      const deleteResources = await cloudinary.api.delete_resources_by_prefix(
-        "api/vinted/offers"
-      );
+      await cloudinary.api.delete_resources_by_prefix("api/vinted/offers");
     } catch (error) {
       console.log("deleteResources ===>  ", error.message);
     }
 
-    // Maintenant les dossiers vides, on peut les supprimer
-    try {
-      const deleteFolder = await cloudinary.api.delete_folder(
-        "api/vinted/offers"
-      );
-    } catch (error) {
-      console.log("deleteFolder error ===> ", error.message);
-    }
-
-    // // Créer les annonces
+    // Créer les annonces à partir du fichier products.json
     for (let i = 0; i < products.length; i++) {
       try {
         // Création de la nouvelle annonce
@@ -287,7 +268,7 @@ router.get("/reset-offers", async (req, res) => {
 
         // Uploader l'image principale du produit
         const resultImage = await cloudinary.uploader.upload(
-          products[i].product_image,
+          products[i].product_image.secure_url,
           {
             folder: `api/vinted/offers/${newOffer._id}`,
             public_id: "preview",
@@ -299,7 +280,7 @@ router.get("/reset-offers", async (req, res) => {
         for (let j = 0; j < products[i].product_pictures.length; j++) {
           try {
             const resultPictures = await cloudinary.uploader.upload(
-              products[i].product_pictures[j],
+              products[i].product_pictures[j].secure_url,
               {
                 folder: `api/vinted/offers/${newOffer._id}`,
               }

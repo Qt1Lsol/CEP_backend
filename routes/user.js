@@ -121,8 +121,6 @@ router.get("/reset-users", async (req, res) => {
       // Vider la collection User
       await User.deleteMany({});
 
-      // Supprimer le dossier "api/vinted/users" sur cloudinary
-
       // Pour cela, il faut supprimer les images, cloudinary ne permettant pas de supprimer des dossiers qui ne sont pas vides
       try {
         const deleteResources = await cloudinary.api.delete_resources_by_prefix(
@@ -131,15 +129,6 @@ router.get("/reset-users", async (req, res) => {
         console.log("deleteResources ===>  ", deleteResources);
       } catch (error) {
         console.log("deleteResources ===>  ", error.message);
-      }
-
-      // Maintenant les dossiers vides, on peut les supprimer
-      try {
-        const deleteFolder = await cloudinary.api.delete_folder(
-          "api/vinted/users"
-        );
-      } catch (error) {
-        console.log("deleteFolder error ===> ", error.message);
       }
 
       // Créer les users
