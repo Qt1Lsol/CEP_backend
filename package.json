@@ -25,7 +25,7 @@
     "uid2": "0.0.3"
   },
   "devDependencies": {
-    "puppeteer": "^7.0.4",
+    "puppeteer": "^7.1.0",
     "puppeteer-autoscroll-down": "^0.1.6"
   }
 }
