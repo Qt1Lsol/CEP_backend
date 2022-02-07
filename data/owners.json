@@ -2,7 +2,6 @@
   {
     "account": {
       "username": "Brice",
-      "phone": "0607080910",
       "avatar": {
         "asset_id": "419d8c122585ec49b27b93bafc7b7985",
         "public_id": "api/vinted/users/6196537e2db0c60018da13cc/avatar",
@@ -36,7 +35,6 @@
   {
     "account": {
       "username": "Mallory.Noel",
-      "phone": "0615849937",
       "avatar": {
         "asset_id": "dd2ff6f5d52f74002818456d4f95fbe1",
         "public_id": "api/vinted/users/619653812db0c60018da13cd/avatar",
@@ -70,7 +68,6 @@
   {
     "account": {
       "username": "Marlin.Renaud3",
-      "phone": "0687950896",
       "avatar": {
         "asset_id": "03487ccdaa8c5cb1a35d2f86c1e46e32",
         "public_id": "api/vinted/users/619653832db0c60018da13ce/avatar",
@@ -104,7 +101,6 @@
   {
     "account": {
       "username": "Violette.Martin3",
-      "phone": "0671593807",
       "avatar": {
         "asset_id": "aaf4dda91a310566130f0ddaaa261667",
         "public_id": "api/vinted/users/619653862db0c60018da13cf/avatar",
@@ -138,7 +134,6 @@
   {
     "account": {
       "username": "Bernard_Fontaine",
-      "phone": "0616446282",
       "avatar": {
         "asset_id": "d43ea68d419f831aa259d4232c1ddd33",
         "public_id": "api/vinted/users/619653882db0c60018da13d0/avatar",
@@ -172,7 +167,6 @@
   {
     "account": {
       "username": "Wilhelmine_Prevost",
-      "phone": "0685408205",
       "avatar": {
         "asset_id": "87899a97595b6cedf569b47d3fcbe486",
         "public_id": "api/vinted/users/6196538a2db0c60018da13d1/avatar",
@@ -206,7 +200,6 @@
   {
     "account": {
       "username": "Natalia28",
-      "phone": "0612752487",
       "avatar": {
         "asset_id": "4e7e4671630dea1fc3e1b3efae2099b4",
         "public_id": "api/vinted/users/6196538b2db0c60018da13d2/avatar",
@@ -240,7 +233,6 @@
   {
     "account": {
       "username": "Autumn_Muller42",
-      "phone": "0697280253",
       "avatar": {
         "asset_id": "d2078f32b0cd6433f0618c2c04b1b4e8",
         "public_id": "api/vinted/users/6196538d2db0c60018da13d3/avatar",
@@ -274,7 +266,6 @@
   {
     "account": {
       "username": "Karlee.Brunet75",
-      "phone": "0684475421",
       "avatar": {
         "asset_id": "c137c8958e6f776bf4218bbd9b82653b",
         "public_id": "api/vinted/users/6196538e2db0c60018da13d4/avatar",
@@ -308,7 +299,6 @@
   {
     "account": {
       "username": "Shakira.Pierre69",
-      "phone": "0689130534",
       "avatar": {
         "asset_id": "5babf1693d91f78c26729cd36f718095",
         "public_id": "api/vinted/users/6196538f2db0c60018da13d5/avatar",
@@ -342,7 +332,6 @@
   {
     "account": {
       "username": "Maybelle_Prevost",
-      "phone": "0690766531",
       "avatar": {
         "asset_id": "1361019ccd485488ef3967719269b81a",
         "public_id": "api/vinted/users/619653902db0c60018da13d6/avatar",
@@ -376,7 +365,6 @@
   {
     "account": {
       "username": "Florian8",
-      "phone": "0699465008",
       "avatar": {
         "asset_id": "1b94ccf9e9e97d1a56bd047c5ccc5688",
         "public_id": "api/vinted/users/619653922db0c60018da13d7/avatar",
@@ -410,7 +398,6 @@
   {
     "account": {
       "username": "Lauriane58",
-      "phone": "0604072279",
       "avatar": {
         "asset_id": "3c853f90225cb86e9ecad66665076cb2",
         "public_id": "api/vinted/users/619653932db0c60018da13d8/avatar",
@@ -444,7 +431,6 @@
   {
     "account": {
       "username": "Jazlyn.Prevost93",
-      "phone": "0674528371",
       "avatar": {
         "asset_id": "8ad664f6b52e706479212b1a43513570",
         "public_id": "api/vinted/users/619653942db0c60018da13d9/avatar",
@@ -478,7 +464,6 @@
   {
     "account": {
       "username": "Leo35",
-      "phone": "0664680817",
       "avatar": {
         "asset_id": "9490886e3d8845d732343830ff1cc1e5",
         "public_id": "api/vinted/users/619653952db0c60018da13da/avatar",
@@ -512,7 +497,6 @@
   {
     "account": {
       "username": "Kyle81",
-      "phone": "0634385929",
       "avatar": {
         "asset_id": "bf6186aa34b267853a9c5221d3113ea4",
         "public_id": "api/vinted/users/619653962db0c60018da13db/avatar",
@@ -546,7 +530,6 @@
   {
     "account": {
       "username": "Jasper.Brunet50",
-      "phone": "0683056474",
       "avatar": {
         "asset_id": "2fa8b1cca49cd282f8fadbdcd1a1d970",
         "public_id": "api/vinted/users/619653972db0c60018da13dc/avatar",
@@ -580,7 +563,6 @@
   {
     "account": {
       "username": "Osbaldo_Guyot78",
-      "phone": "0633128648",
       "avatar": {
         "asset_id": "3f367328acf4a701e8da30b99e42663f",
         "public_id": "api/vinted/users/619653982db0c60018da13dd/avatar",
@@ -614,7 +596,6 @@
   {
     "account": {
       "username": "Helena74",
-      "phone": "0673125998",
       "avatar": {
         "asset_id": "1b2c48b1ebb1ed186457211039ffe6c4",
         "public_id": "api/vinted/users/619653992db0c60018da13de/avatar",
@@ -648,7 +629,6 @@
   {
     "account": {
       "username": "Kaley_Nguyen32",
-      "phone": "0628787473",
       "avatar": {
         "asset_id": "3508748176d8039f18ddf7a2762a2c6e",
         "public_id": "api/vinted/users/6196539a2db0c60018da13df/avatar",
@@ -682,7 +662,6 @@
   {
     "account": {
       "username": "Sammie.Renard",
-      "phone": "0607122868",
       "avatar": {
         "asset_id": "a0c97d18d968f4e3f941da00732be5f4",
         "public_id": "api/vinted/users/6196539b2db0c60018da13e0/avatar",

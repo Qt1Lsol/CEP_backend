@@ -23,9 +23,5 @@
     "mongoose": "^5.9.26",
     "stripe": "^8.118.0",
     "uid2": "0.0.3"
-  },
-  "devDependencies": {
-    "puppeteer": "^7.1.0",
-    "puppeteer-autoscroll-down": "^0.1.6"
   }
 }

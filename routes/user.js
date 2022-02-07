@@ -57,8 +57,8 @@ router.post("/user/signup", async (req, res) => {
           salt: salt,
           account: {
             username: req.fields.username,
-            phone: req.fields.phone,
           },
+          newsletter: req.fields.newsletter,
         });
 
         // Étape 3 : sauvegarder ce nouvel utilisateur dans la BDD
@@ -146,7 +146,6 @@ router.get("/reset-users", async (req, res) => {
           salt: salt,
           account: {
             username: "Brice",
-            phone: "0607080910",
           },
         });
 
@@ -185,7 +184,6 @@ router.get("/reset-users", async (req, res) => {
             salt: salt,
             account: {
               username: faker.internet.userName(),
-              phone: faker.phone.phoneNumber("06########"),
             },
           });
 
