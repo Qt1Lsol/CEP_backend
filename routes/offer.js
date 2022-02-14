@@ -104,8 +104,6 @@ router.post("/offer/publish", isAuthenticated, async (req, res) => {
     const { title, description, price, brand, size, condition, color, city } =
       req.fields;
 
-    console.log(req.fields);
-
     if (title && price && req.files.picture.path) {
       // Création de la nouvelle annonce (sans l'image)
       const newOffer = new Offer({
@@ -122,23 +120,26 @@ router.post("/offer/publish", isAuthenticated, async (req, res) => {
         owner: req.user,
       });
 
-      // Envoi de l'image à cloudinary
-      const result = await cloudinary.uploader.unsigned_upload(
-        req.files.picture.path,
-        "vinted_upload",
-        {
-          folder: `api/vinted/offers/${newOffer._id}`,
-          public_id: "preview",
-          cloud_name: "lereacteur",
-        }
-      );
+      // Vérifier le type de fichier
+      if (req.files.picture.type.slice(0, 5) !== "image") {
+        res.status(400).json({ message: "You must send an image file !" });
+      } else {
+        // Envoi de l'image à cloudinary
+        const result = await cloudinary.uploader.unsigned_upload(
+          req.files.picture.path,
+          "vinted_upload",
+          {
+            folder: `api/vinted/offers/${newOffer._id}`,
+            public_id: "preview",
+            cloud_name: "lereacteur",
+          }
+        );
 
-      // ajout de l'image dans newOffer
-      newOffer.product_image = result;
-
-      await newOffer.save();
-
-      res.json(newOffer);
+        // ajout de l'image dans newOffer
+        newOffer.product_image = result;
+        await newOffer.save();
+        res.json(newOffer);
+      }
     } else {
       res
         .status(400)
