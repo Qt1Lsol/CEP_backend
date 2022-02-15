@@ -12,7 +12,7 @@ router.post("/payment", async (req, res) => {
   try {
     // on envoie le token a Stripe avec le montant
     let { status } = await stripe.charges.create({
-      amount: req.fields.amount * 100,
+      amount: (req.fields.amount * 100).toFixed(0),
       currency: "eur",
       description: `Paiement vinted pour : ${req.fields.title}`,
       source: req.fields.token,
