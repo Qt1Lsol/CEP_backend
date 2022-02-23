@@ -24,14 +24,16 @@ cloudinary.config({
 });
 
 const userRoutes = require("./routes/user");
-const offerRoutes = require("./routes/offer");
-const paymentRoutes = require("./routes/payment");
+const authorRoutes = require("./routes/author");
+const questionRoutes = require("./routes/question");
+
 app.use(userRoutes);
-app.use(offerRoutes);
-app.use(paymentRoutes);
+app.use(authorRoutes);
+app.use(questionRoutes);
+
 
 app.get("/", (req, res) => {
-  res.json("Bienvenue sur l'API de Vinted");
+  res.json("Bienvenue sur l'API de Culture En Poche");
 });
 
 app.use(function (err, req, res, next) {
