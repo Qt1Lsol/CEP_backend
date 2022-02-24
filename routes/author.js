@@ -40,7 +40,7 @@ router.post("/author/signup", async (req, res) => {
             // sinon, on passe à la suite...
         } else {
             // l'utilisateur a-t-il bien envoyé les informations requises ?
-            if (req.fields.email && req.fields.password && req.fields.username && req.fields.birthDate) {
+            if (req.fields.email && req.fields.password) {
                 // Si oui, on peut créer ce nouvel utilisateur
 
                 // Étape 1 : encrypter le mot de passe
@@ -52,8 +52,6 @@ router.post("/author/signup", async (req, res) => {
                 // Étape 2 : créer le nouvel utilisateur
                 const newAuthor = new Author({
                     email: req.fields.email,
-                    birthDate: req.fields.birthDate,
-                    username: req.fields.username,
                     token: token,
                     hash: hash,
                     salt: salt,
