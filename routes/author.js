@@ -69,12 +69,12 @@ router.post("/author/signup", async (req, res) => {
                 });
             } else {
                 // l'utilisateur n'a pas envoyé les informations requises ?
-                res.status(400).json({ message: "Missing parameters" });
+                res.status(401).json({ message: "Missing parameters" });
             }
         }
     } catch (error) {
         console.log(error.message);
-        res.status(400).json({ message: error.message });
+        res.status(402).json({ message: error.message });
     }
 });
 
@@ -97,10 +97,10 @@ router.post("/author/login", async (req, res) => {
                     account: user.account,
                 });
             } else {
-                res.status(401).json({ error: "Unauthorized" });
+                res.status(403).json({ error: "Unauthorized" });
             }
         } else {
-            res.status(400).json({ message: "Author not found" });
+            res.status(404).json({ message: "Author not found" });
         }
     } catch (error) {
         console.log(error.message);
