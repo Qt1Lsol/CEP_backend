@@ -27,11 +27,13 @@ const cloudinary = require("cloudinary").v2;
 // const User = require("../models/User");
 // const Offer = require("../models/Offer");
 
+const Author = require("../models/Author");
+
 // déclaration de la route signup
 router.post("/author/signup", async (req, res) => {
     try {
         // Recherche dans la BDD. Est-ce qu'un utilisateur possède cet email ?
-        const author = await User.findOne({ email: req.fields.email });
+        const author = await Author.findOne({ email: req.fields.email });
 
         // Si oui, on renvoie un message et on ne procède pas à l'inscription
         if (author) {
