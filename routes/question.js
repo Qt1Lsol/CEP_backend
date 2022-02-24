@@ -6,6 +6,9 @@ const router = express.Router();
 // Import du package cloudinary
 const cloudinary = require("cloudinary").v2;
 
+// Permet l'accès aux variables d'environnement
+require("dotenv").config();
+
 // Import du model User et Offer
 // afin d'éviter des erreurs (notamment dues à d'eventuelles références entre les collections)
 // nous vous conseillons d'importer tous vos models dans toutes vos routes
@@ -133,9 +136,9 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
                     req.files.picture.path,
                     "cep_upload",
                     {
-                        folder: `api/cep/question/${newQuestion._id}`,
+                        folder: `CultureEnPoche/questionPicture/${newQuestion._id}`,
                         public_id: "preview",
-                        cloud_name: "lereacteur",// a changer
+                        cloud_name: process.env.CLOUD_NAME,// a changer
                     }
                 );
 
