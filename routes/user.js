@@ -40,7 +40,7 @@ router.post("/user/signup", async (req, res) => {
       // sinon, on passe à la suite...
     } else {
       // l'utilisateur a-t-il bien envoyé les informations requises ?
-      if (req.fields.email && req.fields.password && req.fields.username && req.fields.birthDate) {
+      if (req.fields.email && req.fields.password) {
         // Si oui, on peut créer ce nouvel utilisateur
 
         // Étape 1 : encrypter le mot de passe
