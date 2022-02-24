@@ -7,11 +7,11 @@ const User = mongoose.model("User", {
     type: String,
   },
   birthDate: {
-    required: true,
+    // required: true,
     type: Date,
   },
   username: {
-    required: true,
+    // required: true,
     type: Date,
   },
 
