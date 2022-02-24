@@ -4,18 +4,18 @@ const Author = mongoose.model("Author", {
   entity: {
 
     name: {
-      required: true,
+      // required: true,
       type: String,
     },
     site: {
-      required: true,
+      // required: true,
       type: String,
     },
 
     logo: Object,
 
     type: {
-      required: true,
+      // required: true,
       type: String,
     },
   },
@@ -25,14 +25,6 @@ const Author = mongoose.model("Author", {
     required: true,
     type: String,
   },
-
-  creationDate: {
-    required: true,
-    type: Date,
-    default: Date.now,
-  },
-
-
 
   token: String,
 

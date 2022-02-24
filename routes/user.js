@@ -52,8 +52,6 @@ router.post("/user/signup", async (req, res) => {
         // Étape 2 : créer le nouvel utilisateur
         const newUser = new User({
           email: req.fields.email,
-          birthDate: req.fields.birthDate,
-          username: req.fields.username,
           token: token,
           hash: hash,
           salt: salt,
