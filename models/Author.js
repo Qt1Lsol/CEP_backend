@@ -1,24 +1,24 @@
 const mongoose = require("mongoose");
 
 const Author = mongoose.model("Author", {
-  entity: {
+  // entity: {
 
-    name: {
-      // required: true,
-      type: String,
-    },
-    site: {
-      // required: true,
-      type: String,
-    },
+  //   name: {
+  //     // required: true,
+  //     type: String,
+  //   },
+  //   site: {
+  //     // required: true,
+  //     type: String,
+  //   },
 
-    logo: Object,
+  //   logo: Object,
 
-    type: {
-      // required: true,
-      type: String,
-    },
-  },
+  //   type: {
+  //     // required: true,
+  //     type: String,
+  //   },
+  // },
 
   email: {
     unique: true,

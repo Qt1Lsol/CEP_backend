@@ -6,16 +6,16 @@ const User = mongoose.model("User", {
     unique: true,
     type: String,
   },
-  birthDate: {
-    // required: true,
-    type: Date,
-  },
-  username: {
-    // required: true,
-    type: Date,
-  },
+  // birthDate: {
+  //   // required: true,
+  //   type: Date,
+  // },
+  // username: {
+  //   // required: true,
+  //   type: Date,
+  // },
 
-  avatar: Object,
+  // avatar: Object,
 
   token: String,
   hash: String,
