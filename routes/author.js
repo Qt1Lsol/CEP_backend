@@ -31,6 +31,7 @@ const Author = require("../models/Author");
 
 // déclaration de la route signup
 router.post("/author/signup", async (req, res) => {
+    console.log("test")
     try {
         // Recherche dans la BDD. Est-ce qu'un utilisateur possède cet email ?
         const author = await Author.findOne({ email: req.fields.email });
@@ -63,9 +64,9 @@ router.post("/author/signup", async (req, res) => {
                 // Étape 3 : sauvegarder ce nouvel utilisateur dans la BDD
                 await newAuthor.save();
                 res.status(200).json({
-                    _id: newUser._id,
-                    email: newUser.email,
-                    token: newUser.token,
+                    _id: newAuthor._id,
+                    email: newAuthor.email,
+                    token: newAuthor.token,
                 });
             } else {
                 // l'utilisateur n'a pas envoyé les informations requises ?
@@ -92,9 +93,9 @@ router.post("/author/login", async (req, res) => {
                 user.hash
             ) {
                 res.status(200).json({
-                    _id: user._id,
-                    token: user.token,
-                    account: user.account,
+                    _id: author._id,
+                    token: author.token,
+                    account: author.account,
                 });
             } else {
                 res.status(403).json({ error: "Unauthorized" });
