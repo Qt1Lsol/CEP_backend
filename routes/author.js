@@ -31,7 +31,6 @@ const Author = require("../models/Author");
 
 // déclaration de la route signup
 router.post("/author/signup", async (req, res) => {
-    console.log("test")
     try {
         // Recherche dans la BDD. Est-ce qu'un utilisateur possède cet email ?
         const author = await Author.findOne({ email: req.fields.email });
@@ -43,7 +42,7 @@ router.post("/author/signup", async (req, res) => {
             // sinon, on passe à la suite...
         } else {
             // l'utilisateur a-t-il bien envoyé les informations requises ?
-            if (req.fields.email && req.fields.password) {
+            if (req.fields.email && req.fields.password && req.fields.confirmPassword) {
                 // Si oui, on peut créer ce nouvel utilisateur
 
                 // Étape 1 : encrypter le mot de passe
@@ -75,7 +74,7 @@ router.post("/author/signup", async (req, res) => {
         }
     } catch (error) {
         console.log(error.message);
-        res.status(402).json({ message: error.message });
+        res.status(444).json({ message: error.message });
     }
 });
 
