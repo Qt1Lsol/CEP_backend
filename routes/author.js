@@ -89,8 +89,8 @@ router.post("/author/login", async (req, res) => {
             // user.hash
             // user.salt
             if (
-                SHA256(req.fields.password + user.salt).toString(encBase64) ===
-                user.hash
+                SHA256(req.fields.password + author.salt).toString(encBase64) ===
+                author.hash
             ) {
                 res.status(200).json({
                     _id: author._id,
