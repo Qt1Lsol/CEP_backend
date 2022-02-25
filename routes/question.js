@@ -14,6 +14,7 @@ require("dotenv").config();
 // nous vous conseillons d'importer tous vos models dans toutes vos routes
 const User = require("../models/User");
 const Offer = require("../models/Offer");
+const Question = require("../models/Question");
 
 // Import du middleware isAuthenticated
 const isAuthenticated = require("../middleware/isAuthenticated");
@@ -106,12 +107,12 @@ const isAuthenticated = require("../middleware/isAuthenticated");
 router.post("/question/publish", isAuthenticated, async (req, res) => {
 
     try {
-        const { title_text, description, level, type, link, location } = req.fields;
+        const { questionText, description, latitude, longitude, linkWiki, linkPlace } = req.fields;
 
-        if (title_text && description && req.files.picture.path) {
+        if (questionText && description && latitude && longitude && linkWiki && linkPlace) {
             // Création de la nouvelle annonce (sans l'image et sans l'audio)
             const newQuestion = new Question({
-                questionText: title_text,
+                questionText: questionText,
                 description: description,
                 latitude: latitude,
                 longitude: longitude,
@@ -130,29 +131,29 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
             });
 
             // Vérifier le type de fichier
-            if (req.files.picture.type.slice(0, 5) !== "image") {
-                res.status(400).json({ message: "You must send an image file !" });
-            } else {
-                // Envoi de l'image à cloudinary
-                const result = await cloudinary.uploader.unsigned_upload(
-                    req.files.picture.path,
-                    "cep_upload",
-                    {
-                        folder: `CultureEnPoche/questionPicture/${newQuestion._id}`,
-                        public_id: "preview",
-                        cloud_name: process.env.CLOUD_NAME,// a changer
-                    }
-                );
+            // if (req.files.picture.type.slice(0, 5) !== "image") {
+            //     res.status(400).json({ message: "You must send an image file !" });
+            // } else {
+            //     // Envoi de l'image à cloudinary
+            //     const result = await cloudinary.uploader.unsigned_upload(
+            //         req.files.picture.path,
+            //         "cep_upload",
+            //         {
+            //             folder: `CultureEnPoche/questionPicture/${newQuestion._id}`,
+            //             public_id: "preview",
+            //             cloud_name: process.env.CLOUD_NAME,// a changer
+            //         }
+            //     );
 
-                // ajout de l'image dans newQuestion
-                newQuestion.questionImg = result;
-                await newQuestion.save();
-                res.json(newQuestion);
-            }
+            //     // ajout de l'image dans newQuestion
+            //     newQuestion.questionImg = result;
+            //     await newQuestion.save();
+            //     res.json(newQuestion);
+            // }
         } else {
             res
                 .status(400)
-                .json({ message: "title, price and picture are required" });
+                .json({ message: "All fields are required" });
         }
     } catch (error) {
         console.log(error.message);
