@@ -127,7 +127,7 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
                 //     { locationCategory: locationCategory },
                 // ],
 
-                author: req.user,
+                author: req.author,
             });
 
             // Vérifier le type de fichier
