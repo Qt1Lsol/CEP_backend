@@ -12,8 +12,8 @@ require("dotenv").config();
 // Import du model User et Offer
 // afin d'éviter des erreurs (notamment dues à d'eventuelles références entre les collections)
 // nous vous conseillons d'importer tous vos models dans toutes vos routes
-const User = require("../models/User");
-const Offer = require("../models/Offer");
+// const User = require("../models/User");
+// const Offer = require("../models/Offer");
 const Question = require("../models/Question");
 const Author = require("../models/Author");
 
@@ -107,7 +107,7 @@ const isAuthenticated = require("../middleware/isAuthenticated");
 // route qui permet de poster une nouvelle annonce
 router.post("/question/publish", isAuthenticated, async (req, res) => {
 
-    console.log(req.author);
+    // console.log(req.author);
 
     try {
         const { questionText, description, latitude, longitude, linkWiki, linkPlace } = req.fields;
