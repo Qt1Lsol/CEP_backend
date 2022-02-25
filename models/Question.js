@@ -39,7 +39,7 @@ const Question = mongoose.model("Question", {
     //     questionAudio: Object,
     // },
 
-    author: {
+    owner: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Author",
     },

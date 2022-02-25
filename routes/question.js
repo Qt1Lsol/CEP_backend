@@ -15,6 +15,7 @@ require("dotenv").config();
 const User = require("../models/User");
 const Offer = require("../models/Offer");
 const Question = require("../models/Question");
+const Author = require("../models/Author");
 
 // Import du middleware isAuthenticated
 const isAuthenticated = require("../middleware/isAuthenticated");
