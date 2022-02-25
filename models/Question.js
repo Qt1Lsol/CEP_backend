@@ -7,54 +7,37 @@ const Question = mongoose.model("Question", {
         type: String,
     },
 
-    questionDescription: {
+    description: {
         required: true,
         type: String,
     },
 
-    questionLevel: {
+
+    latitude: {
         required: true,
         type: Number,
     },
 
-    questionType: {
+    longitude: {
+        required: true,
+        type: Number,
+    },
+
+    linkWiki: {
         required: true,
         type: String,
     },
 
-    questionLink: {
+    linkPlace: {
         required: true,
-        type: string,
+        type: String,
     },
 
-    questionLocation: {
-        locationType: {
-            required: true,
-            type: String,
-        },
-        locationCoordinates: {
-            required: true,
-            type: Number,
-        },
 
-        locationLink: {
-            required: true,
-            type: string,
-        },
+    //     questionImg: Object,
 
-        locationName: {
-            required: true,
-            type: String,
-        },
-        locationCategory: {
-            required: true,
-            type: String,
-        },
-
-        questionImg: Object,
-
-        questionAudio: Object,
-    },
+    //     questionAudio: Object,
+    // },
 
     author: {
         type: mongoose.Schema.Types.ObjectId,
