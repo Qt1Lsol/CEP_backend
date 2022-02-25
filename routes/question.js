@@ -109,7 +109,7 @@ const Author = require("../models/Author");
 
 router.post("/question/publish", async (req, res) => {
 
-    // console.log(req.author);
+    console.log(req.fields.questionText);
 
     try {
 
