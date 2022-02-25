@@ -18,7 +18,7 @@ const Question = require("../models/Question");
 const Author = require("../models/Author");
 
 // Import du middleware isAuthenticated
-const isAuthenticated = require("../middleware/isAuthenticated");
+// const isAuthenticated = require("../middleware/isAuthenticated");
 
 // Import des datas (ne pas en tenir compte, cela sert au reset de la BDD entre 2 sessions de formation)
 // const products = require("../data/products.json");
@@ -156,9 +156,7 @@ router.post("/question/publish", async (req, res) => {
             res.json(newQuestion);
             // }
         } else {
-            res
-                .status(400)
-                .json({ message: "All fields are required" });
+            res.status(400).json({ message: "All fields are required" });
         }
     } catch (error) {
         console.log(error.message);
