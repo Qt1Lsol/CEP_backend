@@ -112,17 +112,17 @@ router.post("/question/publish", async (req, res) => {
     // console.log(req.author);
 
     try {
-        const { questionText, description, latitude, longitude, linkWiki, linkPlace } = req.fields;
+        const { questionText, description } = req.fields;
 
-        if (questionText && description && latitude && longitude && linkWiki && linkPlace) {
+        if (questionText && description) {
             // Création de la nouvelle annonce (sans l'image et sans l'audio)
             const newQuestion = new Question({
                 questionText: questionText,
                 description: description,
-                latitude: latitude,
-                longitude: longitude,
-                linkWiki: linkWiki,
-                linkPlace: linkPlace,
+                // latitude: latitude,
+                // longitude: longitude,
+                // linkWiki: linkWiki,
+                // linkPlace: linkPlace,
 
                 // questionLocation: [
                 //     { locationType: locationType },
@@ -152,8 +152,8 @@ router.post("/question/publish", async (req, res) => {
 
             //     // ajout de l'image dans newQuestion
             //     newQuestion.questionImg = result;
-            //     await newQuestion.save();
-            //     res.json(newQuestion);
+            await newQuestion.save();
+            res.json(newQuestion);
             // }
         } else {
             res

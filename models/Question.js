@@ -13,25 +13,25 @@ const Question = mongoose.model("Question", {
     },
 
 
-    latitude: {
-        required: true,
-        type: Number,
-    },
+    // latitude: {
+    //     required: true,
+    //     type: Number,
+    // },
 
-    longitude: {
-        required: true,
-        type: Number,
-    },
+    // longitude: {
+    //     required: true,
+    //     type: Number,
+    // },
 
-    linkWiki: {
-        required: true,
-        type: String,
-    },
+    // linkWiki: {
+    //     required: true,
+    //     type: String,
+    // },
 
-    linkPlace: {
-        required: true,
-        type: String,
-    },
+    // linkPlace: {
+    //     required: true,
+    //     type: String,
+    // },
 
 
     //     questionImg: Object,
@@ -39,10 +39,10 @@ const Question = mongoose.model("Question", {
     //     questionAudio: Object,
     // },
 
-    author: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Author",
-    },
+    // author: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Author",
+    // },
 
 });
 
