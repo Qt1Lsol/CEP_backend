@@ -7,7 +7,7 @@ const router = express.Router();
 const cloudinary = require("cloudinary").v2;
 
 // Permet l'accès aux variables d'environnement
-require("dotenv").config();
+// require("dotenv").config();
 
 // Import du model User et Offer
 // afin d'éviter des erreurs (notamment dues à d'eventuelles références entre les collections)
@@ -112,13 +112,12 @@ router.post("/question/publish", async (req, res) => {
     // console.log(req.author);
 
     try {
-        const { questionText, description } = req.fields;
 
-        if (questionText && description) {
+        if (req.fields.questionText && req.fields.description) {
             // Création de la nouvelle annonce (sans l'image et sans l'audio)
             const newQuestion = new Question({
-                questionText: questionText,
-                description: description,
+                questionText: req.fields.questionText,
+                description: req.fields.description,
                 // latitude: latitude,
                 // longitude: longitude,
                 // linkWiki: linkWiki,
@@ -153,10 +152,14 @@ router.post("/question/publish", async (req, res) => {
             //     // ajout de l'image dans newQuestion
             //     newQuestion.questionImg = result;
             await newQuestion.save();
-            res.json(newQuestion);
+            res.status(200).json({
+                _id: newQuestion._id,
+                questionText: newQuestion.questionText,
+                description: newQuestion.description,
+            });
             // }
         } else {
-            res.status(400).json({ message: "All fields are required" });
+            res.status(401).json({ message: "Missing parameters" });
         }
     } catch (error) {
         console.log(error.message);
