@@ -112,17 +112,19 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
             // Création de la nouvelle annonce (sans l'image et sans l'audio)
             const newQuestion = new Question({
                 questionText: title_text,
-                questionDescription: description,
-                questionLevel: level,
-                questionType: type,
-                questionLink: link,
-                questionLocation: [
-                    { locationType: locationType },
-                    { locationCoordinates: locationCoordinates },
-                    { locationLink: locationLink },
-                    { locationName: locationName },
-                    { locationCategory: locationCategory },
-                ],
+                description: description,
+                latitude: latitude,
+                longitude: longitude,
+                linkWiki: linkWiki,
+                linkPlace: linkPlace,
+
+                // questionLocation: [
+                //     { locationType: locationType },
+                //     { locationCoordinates: locationCoordinates },
+                //     { locationLink: locationLink },
+                //     { locationName: locationName },
+                //     { locationCategory: locationCategory },
+                // ],
 
                 author: req.user,
             });

@@ -1,4 +1,4 @@
-const User = require("../models/User");
+const Author = require("../models/Author");
 
 const isAuthenticated = async (req, res, next) => {
   // req.headers.authorization
@@ -6,10 +6,10 @@ const isAuthenticated = async (req, res, next) => {
     // console.log(req.headers.authorization);
     const token = req.headers.authorization.replace("Bearer ", "");
     // Chercher dans la BDD un user qui a ce token
-    const user = await User.findOne({ token: token }).select("account _id");
+    const author = await Author.findOne({ token: token }).select("account _id");
     // console.log(user);
-    if (user) {
-      req.user = user;
+    if (author) {
+      req.author = author;
       next();
     } else {
       return res.status(401).json({
