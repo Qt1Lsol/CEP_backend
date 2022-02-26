@@ -8,8 +8,8 @@ const cloudinary = require("cloudinary").v2;
 const Author = require("../models/Author");
 
 // déclaration de la route signup
-router.get("/test", async (req, res) => {
-    res.status(409).json({ message: "This email already has an account" });
+router.get("/test", (req, res) => {
+    res.json("tests");
 });
 
 module.exports = router;
