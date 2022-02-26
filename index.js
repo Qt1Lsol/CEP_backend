@@ -27,9 +27,12 @@ const userRoutes = require("./routes/user");
 const authorRoutes = require("./routes/author");
 const questionRoutes = require("./routes/question");
 
+const testRoutes = require("./routes/test");
+
 app.use(userRoutes);
 app.use(authorRoutes);
 app.use(questionRoutes);
+app.use(testRoutes);
 
 
 app.get("/", (req, res) => {
