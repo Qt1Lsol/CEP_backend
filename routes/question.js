@@ -110,64 +110,64 @@ const Author = require("../models/Author");
 router.post("/question/publish", async (req, res) => {
 
 
-    res.status(400).json({ message: "You must send an image file !" });
+    // res.status(400).json({ message: "You must send an image file !" });
 
     // res.status(432).json({ message: "test" });
 
-    // try {
+    try {
 
-    //     if (req.fields.questionText && req.fields.description) {
-    //         // Création de la nouvelle annonce (sans l'image et sans l'audio)
-    //         const newQuestion = new Question({
-    //             questionText: req.fields.questionText,
-    //             description: req.fields.description,
-    //             // latitude: latitude,
-    //             // longitude: longitude,
-    //             // linkWiki: linkWiki,
-    //             // linkPlace: linkPlace,
+        if (req.fields.questionText && req.fields.description) {
+            //         // Création de la nouvelle annonce (sans l'image et sans l'audio)
+            const newQuestion = new Question({
+                questionText: req.fields.questionText,
+                description: req.fields.description,
+                //             // latitude: latitude,
+                //             // longitude: longitude,
+                //             // linkWiki: linkWiki,
+                //             // linkPlace: linkPlace,
 
-    //             // questionLocation: [
-    //             //     { locationType: locationType },
-    //             //     { locationCoordinates: locationCoordinates },
-    //             //     { locationLink: locationLink },
-    //             //     { locationName: locationName },
-    //             //     { locationCategory: locationCategory },
-    //             // ],
+                //             // questionLocation: [
+                //             //     { locationType: locationType },
+                //             //     { locationCoordinates: locationCoordinates },
+                //             //     { locationLink: locationLink },
+                //             //     { locationName: locationName },
+                //             //     { locationCategory: locationCategory },
+                //             // ],
 
-    //             // author: req.author,
-    //         });
+                //             // author: req.author,
+            });
 
-    //         // Vérifier le type de fichier
-    //         // if (req.files.picture.type.slice(0, 5) !== "image") {
-    //         //     res.status(400).json({ message: "You must send an image file !" });
-    //         // } else {
-    //         //     // Envoi de l'image à cloudinary
-    //         //     const result = await cloudinary.uploader.unsigned_upload(
-    //         //         req.files.picture.path,
-    //         //         "cep_upload",
-    //         //         {
-    //         //             folder: `CultureEnPoche/questionPicture/${newQuestion._id}`,
-    //         //             public_id: "preview",
-    //         //             cloud_name: process.env.CLOUD_NAME,// a changer
-    //         //         }
-    //         //     );
+            //         // Vérifier le type de fichier
+            //         // if (req.files.picture.type.slice(0, 5) !== "image") {
+            //         //     res.status(400).json({ message: "You must send an image file !" });
+            //         // } else {
+            //         //     // Envoi de l'image à cloudinary
+            //         //     const result = await cloudinary.uploader.unsigned_upload(
+            //         //         req.files.picture.path,
+            //         //         "cep_upload",
+            //         //         {
+            //         //             folder: `CultureEnPoche/questionPicture/${newQuestion._id}`,
+            //         //             public_id: "preview",
+            //         //             cloud_name: process.env.CLOUD_NAME,// a changer
+            //         //         }
+            //         //     );
 
-    //         //     // ajout de l'image dans newQuestion
-    //         //     newQuestion.questionImg = result;
-    //         await newQuestion.save();
-    //         res.status(200).json({
-    //             _id: newQuestion._id,
-    //             questionText: newQuestion.questionText,
-    //             description: newQuestion.description,
-    //         });
-    //         // }
-    //     } else {
-    //         res.status(401).json({ message: "Missing parameters" });
-    //     }
-    // } catch (error) {
-    //     console.log(error.message);
-    //     res.status(400).json({ message: error.message });
-    // }
+            //         //     // ajout de l'image dans newQuestion
+            //     newQuestion.questionImg = result;
+            await newQuestion.save();
+            res.status(200).json({
+                _id: newQuestion._id,
+                questionText: newQuestion.questionText,
+                description: newQuestion.description,
+            });
+            //         // }
+        } else {
+            res.status(401).json({ message: "Missing parameters" });
+        }
+    } catch (error) {
+        console.log(error.message);
+        res.status(400).json({ message: error.message });
+    }
 });
 
 // router.put("/offer/update/:id", isAuthenticated, async (req, res) => {
