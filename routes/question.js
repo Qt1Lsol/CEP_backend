@@ -122,7 +122,7 @@ router.post("/question/publish", async (req, res) => {
                 questionText: req.fields.questionText,
                 description: req.fields.description,
                 latitude: req.fields.latitude,
-                //             // longitude: longitude,
+                longitude: req.fields.longitude,
                 //             // linkWiki: linkWiki,
                 //             // linkPlace: linkPlace,
 
@@ -160,6 +160,7 @@ router.post("/question/publish", async (req, res) => {
                 questionText: newQuestion.questionText,
                 description: newQuestion.description,
                 latitude: newQuestion.latitude,
+                longitude: newQuestion.longitude,
             });
             //         // }
         } else {
