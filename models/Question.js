@@ -13,15 +13,15 @@ const Question = mongoose.model("Question", {
     },
 
 
-    latitude: {
-        required: true,
-        type: Number,
-    },
+    // latitude: {
+    //     required: true,
+    //     type: Number,
+    // },
 
-    longitude: {
-        required: true,
-        type: Number,
-    },
+    // longitude: {
+    //     required: true,
+    //     type: Number,
+    // },
 
     // linkWiki: {
     //     required: true,
