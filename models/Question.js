@@ -23,15 +23,15 @@ const Question = mongoose.model("Question", {
         type: Number,
     },
 
-    linkWiki: {
-        required: true,
-        type: String,
-    },
+    // linkWiki: {
+    //     required: true,
+    //     type: String,
+    // },
 
-    linkPlace: {
-        required: true,
-        type: String,
-    },
+    // linkPlace: {
+    //     required: true,
+    //     type: String,
+    // },
 
 
     //     questionImg: Object,
