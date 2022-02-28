@@ -94,7 +94,7 @@ router.post("/author/login", async (req, res) => {
                 res.status(200).json({
                     _id: author._id,
                     token: author.token,
-                    account: author.account,
+                    account: author.email,
                 });
             } else {
                 res.status(403).json({ error: "Unauthorized" });
