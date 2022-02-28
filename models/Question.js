@@ -33,7 +33,8 @@ const Question = mongoose.model("Question", {
     },
 
 
-    //     questionImg: Object,
+    // questionImg: Object,
+    questionImg: { type: mongoose.Schema.Types.Mixed, default: {} },
 
     //     questionAudio: Object,
     // },

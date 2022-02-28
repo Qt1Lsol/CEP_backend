@@ -145,7 +145,7 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
                     {
                         folder: `CultureEnPoche/questionPicture/${newQuestion._id}`,
                         public_id: "preview",
-                        cloud_name: process.env.CLOUD_NAME,// a changer
+                        cloud_name: process.env.CLOUD_NAME,
                     }
                 );
 
