@@ -109,12 +109,12 @@ const isAuthenticated = require("../middleware/isAuthenticated");
 
 router.post("/question/publish", isAuthenticated, async (req, res) => {
 
-    console.log(req.fields);
+    // console.log(req.fields);
 
 
     // res.status(400).json({ message: "You must send an image file !" });
 
-    // res.status(432).json({ message: "test" });
+    res.status(432).json({ message: req.fields });
 
     try {
 
