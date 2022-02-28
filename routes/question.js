@@ -139,7 +139,7 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
                 res.status(400).json({ message: "You must send an image file !" });
             } else {
                 // Envoi de l'image à cloudinary
-                const result = await cloudinary.uploader.unsigned_upload(
+                const result = await cloudinary.uploader.upload(
                     req.files.questionPicture.path,
                     "cep_upload",
                     {
@@ -171,7 +171,7 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
         };
     } catch (error) {
         console.log(error.message);
-        res.status(400).json({ message: error.message });
+        res.status(432).json({ message: error.message });
     }
 });
 
