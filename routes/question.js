@@ -141,7 +141,9 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
                 // Envoi de l'image à cloudinary
                 const result = await cloudinary.uploader.upload(
                     req.files.questionPicture.path,
-                    "cep_upload"
+                    {folder: 'CultureEnPoche/questionPicture'}
+
+                    // .upload(data.pict, {folder: 'myfolder'})
                     // {
                     //     // folder: `CultureEnPoche/questionPicture/${newQuestion._id}`,
                     //     folder: `/${newQuestion._id}`,
