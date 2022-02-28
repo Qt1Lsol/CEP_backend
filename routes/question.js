@@ -107,7 +107,7 @@ const isAuthenticated = require("../middleware/isAuthenticated");
 // route qui permet de poster une nouvelle annonce
 // router.post("/question/publish", isAuthenticated, async (req, res) => {
 
-router.post("/question/publish", isAuthenticated, async (req, res) => {
+router.post("/question/publish", async (req, res) => {
 
     // console.log(req.fields);
 
