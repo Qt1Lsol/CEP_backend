@@ -143,7 +143,8 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
                     req.files.questionPicture.path,
                     "cep_upload",
                     {
-                        folder: `CultureEnPoche/questionPicture/${newQuestion._id}`,
+                        // folder: `CultureEnPoche/questionPicture/${newQuestion._id}`,
+                        folder: `/${newQuestion._id}`,
                         public_id: "preview",
                         cloud_name: process.env.CLOUD_NAME,
                     }
