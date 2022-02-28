@@ -109,6 +109,8 @@ const Author = require("../models/Author");
 
 router.post("/question/publish", async (req, res) => {
 
+    console.log(req.fields);
+
 
     // res.status(400).json({ message: "You must send an image file !" });
 
