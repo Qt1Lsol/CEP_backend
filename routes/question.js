@@ -131,7 +131,7 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
                 //             //     { locationCategory: locationCategory },
                 //             // ],
 
-                author: "6217adcb315cc200169481c7",
+                author: req.author,
             });
 
             //         // Vérifier le type de fichier
