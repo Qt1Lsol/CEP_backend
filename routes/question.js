@@ -164,15 +164,16 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
                     linkPlace: newQuestion.linkPlace,
                     author: newQuestion.author,
                 });
+            };
 
-            } else {
-                res.status(401).json({ message: "Missing parameters" });
-            }
-        } catch (error) {
-            console.log(error.message);
-            res.status(400).json({ message: error.message });
-        }
-    });
+        } else {
+            res.status(401).json({ message: "Missing parameters" });
+        };
+    } catch (error) {
+        console.log(error.message);
+        res.status(400).json({ message: error.message });
+    }
+});
 
 // router.put("/offer/update/:id", isAuthenticated, async (req, res) => {
 //     const offerToModify = await Offer.findById(req.params.id);
