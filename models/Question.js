@@ -38,10 +38,10 @@ const Question = mongoose.model("Question", {
     //     questionAudio: Object,
     // },
 
-    // author: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "Author",
-    // },
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Author",
+    },
 
 });
 

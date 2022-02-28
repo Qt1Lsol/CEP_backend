@@ -134,7 +134,7 @@ router.post("/question/publish", async (req, res) => {
                 //             //     { locationCategory: locationCategory },
                 //             // ],
 
-                //             // author: req.author,
+                author: req.author,
             });
 
             //         // Vérifier le type de fichier
@@ -163,6 +163,7 @@ router.post("/question/publish", async (req, res) => {
                 longitude: newQuestion.longitude,
                 linkWiki: newQuestion.linkWiki,
                 linkPlace: newQuestion.linkPlace,
+                author: newQuestion.author,
             });
             //         // }
         } else {
