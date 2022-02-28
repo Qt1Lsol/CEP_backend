@@ -34,7 +34,7 @@ const Question = mongoose.model("Question", {
 
 
     // questionImg: Object,
-    questionImg: { type: mongoose.Schema.Types.Mixed, default: {} },
+    questionPicture: { type: mongoose.Schema.Types.Mixed, default: {} },
 
     //     questionAudio: Object,
     // },

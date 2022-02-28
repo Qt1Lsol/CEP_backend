@@ -94,13 +94,13 @@ router.post("/author/login", async (req, res) => {
                 res.status(200).json({
                     _id: author._id,
                     token: author.token,
-                    account: author.email,
+                    author: author.email,
                 });
             } else {
-                res.status(403).json({ error: "Unauthorized" });
+                res.status(401).json({ error: "Unauthorized" });
             }
         } else {
-            res.status(404).json({ message: "Author not found" });
+            res.status(401).json({ message: "Author not found" });
         }
     } catch (error) {
         console.log(error.message);
