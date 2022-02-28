@@ -18,7 +18,7 @@ const Question = require("../models/Question");
 const Author = require("../models/Author");
 
 // Import du middleware isAuthenticated
-// const isAuthenticated = require("../middleware/isAuthenticated");
+const isAuthenticated = require("../middleware/isAuthenticated");
 
 // Import des datas (ne pas en tenir compte, cela sert au reset de la BDD entre 2 sessions de formation)
 // const products = require("../data/products.json");
@@ -107,7 +107,7 @@ const Author = require("../models/Author");
 // route qui permet de poster une nouvelle annonce
 // router.post("/question/publish", isAuthenticated, async (req, res) => {
 
-router.post("/question/publish", async (req, res) => {
+router.post("/question/publish", isAuthenticated, async (req, res) => {
 
     console.log(req.fields);
 
