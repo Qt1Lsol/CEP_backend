@@ -135,12 +135,12 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
             });
 
             // Vérifier le type de fichier
-            if (req.files.picture.type.slice(0, 5) !== "image") {
+            if (req.files.questionPicture.type.slice(0, 5) !== "image") {
                 res.status(400).json({ message: "You must send an image file !" });
             } else {
                 // Envoi de l'image à cloudinary
                 const result = await cloudinary.uploader.unsigned_upload(
-                    req.files.picture.path,
+                    req.files.questionPicture.path,
                     "cep_upload",
                     {
                         folder: `CultureEnPoche/questionPicture/${newQuestion._id}`,
@@ -151,7 +151,7 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
 
                 // ajout de l'image dans newQuestion
 
-                newQuestion.questionImg = result;
+                newQuestion.questionPicture = result;
 
                 await newQuestion.save();
                 res.status(200).json({
