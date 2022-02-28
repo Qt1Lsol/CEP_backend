@@ -114,7 +114,7 @@ router.post("/question/publish", async (req, res) => {
 
     // res.status(400).json({ message: "You must send an image file !" });
 
-    // res.status(432).json({ message: req.fields });
+    res.status(432).json({ message: req.fields });
 
     try {
 
