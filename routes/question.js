@@ -134,43 +134,45 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
                 author: req.author,
             });
 
-            //         // Vérifier le type de fichier
-            //         // if (req.files.picture.type.slice(0, 5) !== "image") {
-            //         //     res.status(400).json({ message: "You must send an image file !" });
-            //         // } else {
-            //         //     // Envoi de l'image à cloudinary
-            //         //     const result = await cloudinary.uploader.unsigned_upload(
-            //         //         req.files.picture.path,
-            //         //         "cep_upload",
-            //         //         {
-            //         //             folder: `CultureEnPoche/questionPicture/${newQuestion._id}`,
-            //         //             public_id: "preview",
-            //         //             cloud_name: process.env.CLOUD_NAME,// a changer
-            //         //         }
-            //         //     );
+            // Vérifier le type de fichier
+            if (req.files.picture.type.slice(0, 5) !== "image") {
+                res.status(400).json({ message: "You must send an image file !" });
+            } else {
+                // Envoi de l'image à cloudinary
+                const result = await cloudinary.uploader.unsigned_upload(
+                    req.files.picture.path,
+                    "cep_upload",
+                    {
+                        folder: `CultureEnPoche/questionPicture/${newQuestion._id}`,
+                        public_id: "preview",
+                        cloud_name: process.env.CLOUD_NAME,// a changer
+                    }
+                );
 
-            //         //     // ajout de l'image dans newQuestion
-            //     newQuestion.questionImg = result;
-            await newQuestion.save();
-            res.status(200).json({
-                _id: newQuestion._id,
-                questionText: newQuestion.questionText,
-                description: newQuestion.description,
-                latitude: newQuestion.latitude,
-                longitude: newQuestion.longitude,
-                linkWiki: newQuestion.linkWiki,
-                linkPlace: newQuestion.linkPlace,
-                author: newQuestion.author,
-            });
+                // ajout de l'image dans newQuestion
 
-        } else {
-            res.status(401).json({ message: "Missing parameters" });
+                newQuestion.questionImg = result;
+
+                await newQuestion.save();
+                res.status(200).json({
+                    _id: newQuestion._id,
+                    questionText: newQuestion.questionText,
+                    description: newQuestion.description,
+                    latitude: newQuestion.latitude,
+                    longitude: newQuestion.longitude,
+                    linkWiki: newQuestion.linkWiki,
+                    linkPlace: newQuestion.linkPlace,
+                    author: newQuestion.author,
+                });
+
+            } else {
+                res.status(401).json({ message: "Missing parameters" });
+            }
+        } catch (error) {
+            console.log(error.message);
+            res.status(400).json({ message: error.message });
         }
-    } catch (error) {
-        console.log(error.message);
-        res.status(400).json({ message: error.message });
-    }
-});
+    });
 
 // router.put("/offer/update/:id", isAuthenticated, async (req, res) => {
 //     const offerToModify = await Offer.findById(req.params.id);
