@@ -123,51 +123,52 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
                 linkWiki: req.fields.linkWiki,
                 linkPlace: req.fields.linkPlace,
 
-                //             // questionLocation: [
-                //             //     { locationType: locationType },
-                //             //     { locationCoordinates: locationCoordinates },
-                //             //     { locationLink: locationLink },
-                //             //     { locationName: locationName },
-                //             //     { locationCategory: locationCategory },
-                //             // ],
-
                 author: req.author,
             });
 
-            // Vérifier le type de fichier
+            // Vérifier le type de fichier image
             if (req.files.questionPicture.type.slice(0, 5) !== "image") {
                 res.status(400).json({ message: "You must send an image file !" });
             } else {
                 // Envoi de l'image à cloudinary
-                const result = await cloudinary.uploader.upload(
+                const resultPicture = await cloudinary.uploader.upload(
                     req.files.questionPicture.path,
                     {folder: 'CultureEnPoche/questionPicture'}
-
-                    // .upload(data.pict, {folder: 'myfolder'})
-                    // {
-                    //     // folder: `CultureEnPoche/questionPicture/${newQuestion._id}`,
-                    //     folder: `/${newQuestion._id}`,
-                    //     public_id: "preview",
-                    //     cloud_name: process.env.CLOUD_NAME,
-                    // }
                 );
 
                 // ajout de l'image dans newQuestion
 
-                newQuestion.questionPicture = result;
+                newQuestion.questionPicture = resultPicture;
 
-                await newQuestion.save();
-                res.status(200).json({
-                    _id: newQuestion._id,
-                    questionText: newQuestion.questionText,
-                    description: newQuestion.description,
-                    latitude: newQuestion.latitude,
-                    longitude: newQuestion.longitude,
-                    linkWiki: newQuestion.linkWiki,
-                    linkPlace: newQuestion.linkPlace,
-                    author: newQuestion.author,
-                });
             };
+
+            // Vérifier le type de fichier son
+            if (req.files.questionAudio.type.slice(0, 5) !== "image") {
+                res.status(400).json({ message: "You must send an audio file !" });
+            } else {
+                // Envoi de l'image à cloudinary
+                const resultPicture = await cloudinary.uploader.upload(
+                    req.files.questionAudio.path,
+                    {folder: 'CultureEnPoche/questionAudio'}
+                );
+
+                // ajout de l'image dans newQuestion
+
+                newQuestion.questionAudio = resultAudio;
+
+            };
+
+            await newQuestion.save();
+            res.status(200).json({
+                _id: newQuestion._id,
+                questionText: newQuestion.questionText,
+                description: newQuestion.description,
+                latitude: newQuestion.latitude,
+                longitude: newQuestion.longitude,
+                linkWiki: newQuestion.linkWiki,
+                linkPlace: newQuestion.linkPlace,
+                author: newQuestion.author,
+            });
 
         } else {
             res.status(401).json({ message: "Missing parameters" });

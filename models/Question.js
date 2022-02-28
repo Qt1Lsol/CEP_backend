@@ -32,12 +32,9 @@ const Question = mongoose.model("Question", {
         type: String,
     },
 
-
     questionPicture: Object,
-    // questionPicture: { type: mongoose.Schema.Types.Mixed, default: {} },
 
-    //     questionAudio: Object,
-    // },
+    questionAudio: Object,
 
     author: {
         type: mongoose.Schema.Types.ObjectId,
