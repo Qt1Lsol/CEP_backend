@@ -108,7 +108,7 @@ router.get("/question/view", async (req, res) => {
   try {
     // const question = await Question.find({author: req.query.author})
     const question = await Question.find();
-    res.json({question});
+    res.json(question);
   } catch (error) {
     console.log(error.message);
     res.status(400).json({ message: error.message });
