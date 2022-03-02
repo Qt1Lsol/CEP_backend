@@ -153,21 +153,29 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
 
             };
 
-            // Vérifier le type de fichier son
-            if (req.files.questionAudio.type.slice(0, 5) !== "audio") {
-                res.status(400).json({ message: "You must send an audio file !" });
-            } else {
-                // Envoi de l'image à cloudinary
-                const resultAudio = await cloudinary.uploader.upload(
-                    req.files.questionAudio.path,
-                    {folder: 'CultureEnPoche/questionAudio'}
-                );
+               // Envoi de l'image à cloudinary
+               const resultAudio = await cloudinary.uploader.upload(
+                req.files.questionAudio.path,
+                {folder: 'CultureEnPoche/questionAudio'}
+            );
 
-                // ajout de l'image dans newQuestion
+            newQuestion.questionAudio = resultAudio;
 
-                newQuestion.questionAudio = resultAudio;
+            // // Vérifier le type de fichier son
+            // if (req.files.questionAudio.type.slice(0, 5) !== "audio") {
+            //     res.status(400).json({ message: "You must send an audio file !" });
+            // } else {
+            //     // Envoi de l'image à cloudinary
+            //     const resultAudio = await cloudinary.uploader.upload(
+            //         req.files.questionAudio.path,
+            //         {folder: 'CultureEnPoche/questionAudio'}
+            //     );
 
-            };
+            //     // ajout de l'image dans newQuestion
+
+            //     newQuestion.questionAudio = resultAudio;
+
+            // };
 
             await newQuestion.save();
             res.status(200).json({
