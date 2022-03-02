@@ -104,7 +104,7 @@ const isAuthenticated = require("../middleware/isAuthenticated");
 // });
 
 // get all question of an Author
-router.get("/question/view", (req, res) => {
+router.get("/question/view", async (req, res) => {
     // res.json("tests QV");
   try {
     // const question = await Question.find({author: req.query.author})
