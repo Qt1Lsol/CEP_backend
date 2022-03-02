@@ -158,7 +158,7 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
                 req.files.questionAudio.path,
                 {
                     folder: 'CultureEnPoche/questionAudio',
-                    resource_type:video,
+                    resource_type: "video"
                 }
             );
 
