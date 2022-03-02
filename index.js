@@ -26,14 +26,12 @@ cloudinary.config({
 const userRoutes = require("./routes/user");
 const authorRoutes = require("./routes/author");
 const questionRoutes = require("./routes/question");
-const questionViewRoutes = require("./routes/question/view");
 
 const testRoutes = require("./routes/test");
 
 app.use(userRoutes);
 app.use(authorRoutes);
 app.use(questionRoutes);
-app.use(questionViewRoutes);
 app.use(testRoutes);
 
 
