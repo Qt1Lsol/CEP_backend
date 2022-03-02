@@ -116,7 +116,6 @@ router.get("question/view", (req, res) => {
 //   }
 });
 
-
 // route qui permet de poster une nouvelle annonce
 router.post("/question/publish", isAuthenticated, async (req, res) => {
 
