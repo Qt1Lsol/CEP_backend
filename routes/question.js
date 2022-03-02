@@ -154,11 +154,11 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
             };
 
             // Vérifier le type de fichier son
-            // if (req.files.questionAudio.type.slice(0, 5) !== "image") {
-            //     res.status(400).json({ message: "You must send an audio file !" });
-            // } else {
+            if (req.files.questionAudio.type.slice(0, 5) !== "audio") {
+                res.status(400).json({ message: "You must send an audio file !" });
+            } else {
                 // Envoi de l'image à cloudinary
-                const resultPicture = await cloudinary.uploader.upload(
+                const resultAudio = await cloudinary.uploader.upload(
                     req.files.questionAudio.path,
                     {folder: 'CultureEnPoche/questionAudio'}
                 );
@@ -167,7 +167,7 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
 
                 newQuestion.questionAudio = resultAudio;
 
-            // };
+            };
 
             await newQuestion.save();
             res.status(200).json({
