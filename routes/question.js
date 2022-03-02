@@ -156,7 +156,10 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
                // Envoi de l'image à cloudinary
                const resultAudio = await cloudinary.uploader.upload(
                 req.files.questionAudio.path,
-                {folder: 'CultureEnPoche/questionAudio'}
+                {
+                    folder: 'CultureEnPoche/questionAudio',
+                    resource_type :auto
+                }
             );
 
             newQuestion.questionAudio = resultAudio;
