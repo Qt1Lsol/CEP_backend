@@ -29,7 +29,7 @@ const cloudinary = require("cloudinary").v2;
 
 const Author = require("../models/Author");
 
-// déclaration de la route signup
+// Author signup
 router.post("/author/signup", async (req, res) => {
     try {
         // Recherche dans la BDD. Est-ce qu'un utilisateur possède cet email ?
@@ -78,6 +78,42 @@ router.post("/author/signup", async (req, res) => {
     }
 });
 
+// Update Author profil
+router.put("/author/update", isAuthenticated, async (req, res) => {
+    const authorToModify = await Author.findById(req.params.id);
+    try {
+      if (req.fields.email) {
+        authorToModify.email = req.fields.email;
+      }
+
+      if (req.fields.password) {
+        authorToModify.password = req.fields.password;
+      }
+
+      if (req.fields.entityType) {
+        authorToModify.entityType = req.fields.entityType;
+      }
+
+      if (req.fields.businessName) {
+        authorToModify.businessName = req.fields.businessName;
+      }
+      if (req.fields.naf) {
+        authorToModify.naf = req.fields.naf;
+      }
+  
+      // Notifie Mongoose que l'on a modifié le tableau product_details
+    //   authorToModify.markModified("product_details");
+  
+      await authorToModify.save();
+  
+      res.status(200).json("Author modified succesfully !");
+    } catch (error) {
+      console.log(error.message);
+      res.status(400).json({ error: error.message });
+    }
+  });
+
+// Author login
 router.post("/author/login", async (req, res) => {
     try {
         const author = await Author.findOne({ email: req.fields.email });
