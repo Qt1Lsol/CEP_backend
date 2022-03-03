@@ -144,8 +144,8 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
                 // Envoi de l'image à cloudinary
                 const resultPicture = await cloudinary.uploader.upload(
                     req.files.questionPicture.path,
-                    // {folder: 'CultureEnPoche/questionPicture'}
-                    {folder: `CultureEnPoche/questionPicture/${newQuestion._id}`}
+                    {folder: 'CultureEnPoche/questionPicture'}
+                    // {folder: `CultureEnPoche/questionPicture/${newQuestion._id}`}
                 );
 
                 // ajout de l'image dans newQuestion
@@ -158,8 +158,8 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
                const resultAudio = await cloudinary.uploader.upload(
                 req.files.questionAudio.path,
                 {
-                    // folder: 'CultureEnPoche/questionAudio',
-                    folder: `CultureEnPoche/questionAudio/${newQuestion._id}`,
+                    folder: 'CultureEnPoche/questionAudio',
+                    // folder: `CultureEnPoche/questionAudio/${newQuestion._id}`,
                     resource_type: "video",
                 }
             );
