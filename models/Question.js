@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Question = mongoose.model("Question", {
 
-    timestamps: true,
+    // timestamps: true,
     // timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
 
     questionText: {
@@ -44,6 +44,10 @@ const Question = mongoose.model("Question", {
         ref: "Author",
     },
 
-});
+},
+
+{timestamps: true}
+
+);
 
 module.exports = Question;

@@ -275,7 +275,7 @@ router.delete("/question/delete/:id", isAuthenticated, async (req, res) => {
         // //Une fois le dossier vide, je peux le supprimer !
         // await cloudinary.api.delete_folder(`api/vinted/offers/${req.params.id}`);
 
-        questionToDelete = await Question.findById(req.params.id);
+        // questionToDelete = await Question.findById(req.params.id);
 
         await questionToDelete.delete();
 
