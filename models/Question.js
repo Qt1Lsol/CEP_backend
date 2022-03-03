@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Question = mongoose.model("Question", {
 
-    timestamps: {createdAt, updatedAt},
+    timestamps: true,
     // timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
 
     questionText: {
