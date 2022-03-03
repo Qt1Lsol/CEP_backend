@@ -3,6 +3,8 @@ const express = require("express");
 // Appel à la fonction Router(), issue du package 'express'
 const router = express.Router();
 
+const isAuthenticated = require("../middleware/isAuthenticated")
+
 // uid2 et crypto-js sont des packages qui vont nous servir à encrypter le mot de passe
 const uid2 = require("uid2");
 const SHA256 = require("crypto-js/sha256");
