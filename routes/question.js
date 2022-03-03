@@ -153,12 +153,12 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
 
             };
 
-               // Envoi de l'image à cloudinary
+               // Envoi de l'image à cloudinary il manque le if pour vérifier le type de fichier ...
                const resultAudio = await cloudinary.uploader.upload(
                 req.files.questionAudio.path,
                 {
                     folder: 'CultureEnPoche/questionAudio',
-                    resource_type: "video"
+                    resource_type: "video",
                 }
             );
 

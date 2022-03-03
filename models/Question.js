@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 
 const Question = mongoose.model("Question", {
 
+    timestamps: true,
+
     questionText: {
         required: true,
         type: String,
