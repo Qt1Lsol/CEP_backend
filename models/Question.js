@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 
 const Question = mongoose.model("Question", {
 
-    timestamps: true,
+    timestamps: {createdAt, updatedAt},
+    // timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
 
     questionText: {
         required: true,

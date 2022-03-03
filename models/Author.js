@@ -2,8 +2,6 @@ const mongoose = require("mongoose");
 
 const Author = mongoose.model("Author", {
 
-  timestamps: true 
-  
   // entity: {
 
   //   name: {
