@@ -144,7 +144,8 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
                 // Envoi de l'image à cloudinary
                 const resultPicture = await cloudinary.uploader.upload(
                     req.files.questionPicture.path,
-                    {folder: 'CultureEnPoche/questionPicture'}
+                    // {folder: 'CultureEnPoche/questionPicture'}
+                    {folder: `CultureEnPoche/questionPicture/${newQuestion._id}`}
                 );
 
                 // ajout de l'image dans newQuestion
@@ -157,7 +158,8 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
                const resultAudio = await cloudinary.uploader.upload(
                 req.files.questionAudio.path,
                 {
-                    folder: 'CultureEnPoche/questionAudio',
+                    // folder: 'CultureEnPoche/questionAudio',
+                    folder: `CultureEnPoche/questionAudio/${newQuestion._id}`,
                     resource_type: "video",
                 }
             );
@@ -262,25 +264,27 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
 //     }
 // });
 
-// router.delete("/offer/delete/:id", isAuthenticated, async (req, res) => {
-//     try {
-//         //Je supprime ce qui il y a dans le dossier
-//         await cloudinary.api.delete_resources_by_prefix(
-//             `api/vinted/offers/${req.params.id}`
-//         );
-//         //Une fois le dossier vide, je peux le supprimer !
-//         await cloudinary.api.delete_folder(`api/vinted/offers/${req.params.id}`);
 
-//         offerToDelete = await Offer.findById(req.params.id);
+//Delete a quesiton
+router.delete("/question/delete/:id", isAuthenticated, async (req, res) => {
+    try {
+        // //Je supprime ce qui il y a dans le dossier
+        // await cloudinary.api.delete_resources_by_prefix(
+        //     `api/vinted/offers/${req.params.id}`
+        // );
+        // //Une fois le dossier vide, je peux le supprimer !
+        // await cloudinary.api.delete_folder(`api/vinted/offers/${req.params.id}`);
 
-//         await offerToDelete.delete();
+        questionToDelete = await Question.findById(req.params.id);
 
-//         res.status(200).json("Offer deleted succesfully !");
-//     } catch (error) {
-//         console.log(error.message);
-//         res.status(400).json({ error: error.message });
-//     }
-// });
+        await questionToDelete.delete();
+
+        res.status(200).json("Question deleted succesfully !");
+    } catch (error) {
+        console.log(error.message);
+        res.status(400).json({ error: error.message });
+    }
+});
 
 // // CETTE ROUTE SERT AU RESET DE LA BDD ENTRE 2 SESSIONS DE FORMATION. CELA NE FAIT PAS PARTIE DE L'EXERCICE.
 // // RESET ET INITIALISATION BDD
