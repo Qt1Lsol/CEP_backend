@@ -139,7 +139,7 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
 
             // Vérifier le type de fichier image
             if (req.files.questionPicture.type.slice(0, 5) !== "image") {
-                res.status(400).json({ message: "You must send an image file !" });
+                res.status(400).json({ message: "Vous devez envoyer une image !" });
             } else {
                 // Envoi de l'image à cloudinary
                 const resultPicture = await cloudinary.uploader.upload(
@@ -149,12 +149,18 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
                 );
 
                 // ajout de l'image dans newQuestion
-
                 newQuestion.questionPicture = resultPicture;
 
             };
 
+            console.log(req.files.questionAudio);
+
                // Envoi de l'image à cloudinary il manque le if pour vérifier le type de fichier ...
+
+            if (req.files.questionAudio.type.slice(0, 5) !== "audio") {
+                res.status(400).json({ message: "Vous devez envoyer un fichier audio !" });
+            } else {
+
                const resultAudio = await cloudinary.uploader.upload(
                 req.files.questionAudio.path,
                 {
@@ -162,9 +168,16 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
                     // folder: `CultureEnPoche/questionAudio/${newQuestion._id}`,
                     resource_type: "video",
                 }
-            );
 
-            newQuestion.questionAudio = resultAudio;
+            );
+            
+                // ajout de l'audio dans newQuestion        
+                newQuestion.questionAudio = resultAudio;
+
+            };
+
+            
+           
 
             // // Vérifier le type de fichier son
             // if (req.files.questionAudio.type.slice(0, 5) !== "audio") {
