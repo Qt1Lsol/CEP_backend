@@ -105,12 +105,17 @@ const isAuthenticated = require("../middleware/isAuthenticated");
 
 // get all question of an Author
 router.get("/question/view", async (req, res) => {
-
-    console.log("route question/view OK");
-
+  console.log("route question/view OK");
+  console.log(req.query.search);
   try {
+    let filters = {};
+
+    if (req.query.search) {
+      filters.questionText = new RegExp(req.query.search, "i");
+    }
+
     // const question = await Question.find({author: req.query.author})
-    const question = await Question.find();
+    const question = await Question.find(filters);
     res.json(question);
   } catch (error) {
     console.log(error.message);
@@ -120,77 +125,70 @@ router.get("/question/view", async (req, res) => {
 
 // route qui permet de poster une nouvelle annonce
 router.post("/question/publish", isAuthenticated, async (req, res) => {
+  console.log("route question/publish OK");
 
-    console.log("route question/publish OK");
+  try {
+    if (req.fields.questionText && req.fields.description) {
+      // Création de la nouvelle annonce (sans l'image et sans l'audio)
+      const newQuestion = new Question({
+        questionText: req.fields.questionText,
+        description: req.fields.description,
+        latitude: req.fields.latitude,
+        longitude: req.fields.longitude,
+        linkWiki: req.fields.linkWiki,
+        linkPlace: req.fields.linkPlace,
 
-    try {
+        author: req.author,
+      });
 
-        if (req.fields.questionText && req.fields.description) {
+      // Vérifier le type de fichier image
+      if (req.files.questionPicture.type.slice(0, 5) !== "image") {
+        res.status(400).json({ message: "Vous devez envoyer une image !" });
+      } else {
+        // Envoi de l'image à cloudinary
+        const resultPicture = await cloudinary.uploader.upload(
+          req.files.questionPicture.path,
+          { folder: "CultureEnPoche/questionPicture" }
 
-            // Création de la nouvelle annonce (sans l'image et sans l'audio)
-            const newQuestion = new Question({
-                questionText: req.fields.questionText,
-                description: req.fields.description,
-                latitude: req.fields.latitude,
-                longitude: req.fields.longitude,
-                linkWiki: req.fields.linkWiki,
-                linkPlace: req.fields.linkPlace,
+          // {folder: `CultureEnPoche/questionPicture/${newQuestion._id}`}
+        );
 
-                author: req.author,
-            });
+        // ajout de l'image dans newQuestion
+        console.log("questionID", newQuestion._id);
+        newQuestion.questionPicture = resultPicture;
+      }
 
-            // Vérifier le type de fichier image
-            if (req.files.questionPicture.type.slice(0, 5) !== "image") {
-                res.status(400).json({ message: "Vous devez envoyer une image !" });
-            } else {
-                // Envoi de l'image à cloudinary
-                const resultPicture = await cloudinary.uploader.upload(
-                    req.files.questionPicture.path,
-                    {folder: 'CultureEnPoche/questionPicture'}
-                    
-                    // {folder: `CultureEnPoche/questionPicture/${newQuestion._id}`}
-                );
+      console.log(req.files.questionAudio);
 
-               
-                // ajout de l'image dans newQuestion
-                console.log("questionID",newQuestion._id);
-                newQuestion.questionPicture = resultPicture;
+      // Envoi de l'image à cloudinary il manque le if pour vérifier le type de fichier ...
 
-            };
+      if (req.files.questionAudio.type.slice(0, 5) !== "audio") {
+        res
+          .status(400)
+          .json({ message: "Vous devez envoyer un fichier audio !" });
+      } else {
+        const resultAudio = await cloudinary.uploader.upload(
+          req.files.questionAudio.path,
+          {
+            folder: "CultureEnPoche/questionAudio",
+            // folder: `CultureEnPoche/questionAudio/${newQuestion._id}`,
+            resource_type: "video",
+          }
+        );
 
-            console.log(req.files.questionAudio);
+        // ajout de l'audio dans newQuestion
+        newQuestion.questionAudio = resultAudio;
+      }
 
-               // Envoi de l'image à cloudinary il manque le if pour vérifier le type de fichier ...
-
-            if (req.files.questionAudio.type.slice(0, 5) !== "audio") {
-                res.status(400).json({ message: "Vous devez envoyer un fichier audio !" });
-            } else {
-
-               const resultAudio = await cloudinary.uploader.upload(
-                req.files.questionAudio.path,
-                {
-                    folder: 'CultureEnPoche/questionAudio',
-                    // folder: `CultureEnPoche/questionAudio/${newQuestion._id}`,
-                    resource_type: "video",
-                }
-
-            );
-            
-                // ajout de l'audio dans newQuestion        
-                newQuestion.questionAudio = resultAudio;
-
-            };
-
-            await newQuestion.save();
-            res.status(200).json({newQuestion});
-
-        } else {
-            res.status(401).json({ message: "Missing parameters" });
-        };
-    } catch (error) {
-        console.log(error.message);
-        res.status(432).json({ message: error.message });
+      await newQuestion.save();
+      res.status(200).json({ newQuestion });
+    } else {
+      res.status(401).json({ message: "Missing parameters" });
     }
+  } catch (error) {
+    console.log(error.message);
+    res.status(432).json({ message: error.message });
+  }
 });
 
 // router.put("/offer/update/:id", isAuthenticated, async (req, res) => {
@@ -254,26 +252,25 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
 //     }
 // });
 
-
 //Delete a quesiton
 router.delete("/question/delete/:id", isAuthenticated, async (req, res) => {
-    try {
-        // //Je supprime ce qui il y a dans le dossier
-        // await cloudinary.api.delete_resources_by_prefix(
-        //     `api/vinted/offers/${req.params.id}`
-        // );
-        // //Une fois le dossier vide, je peux le supprimer !
-        // await cloudinary.api.delete_folder(`api/vinted/offers/${req.params.id}`);
+  try {
+    // //Je supprime ce qui il y a dans le dossier
+    // await cloudinary.api.delete_resources_by_prefix(
+    //     `api/vinted/offers/${req.params.id}`
+    // );
+    // //Une fois le dossier vide, je peux le supprimer !
+    // await cloudinary.api.delete_folder(`api/vinted/offers/${req.params.id}`);
 
-        // questionToDelete = await Question.findById(req.params.id);
+    // questionToDelete = await Question.findById(req.params.id);
 
-        await questionToDelete.delete();
+    await questionToDelete.delete();
 
-        res.status(200).json("Question deleted succesfully !");
-    } catch (error) {
-        console.log(error.message);
-        res.status(400).json({ error: error.message });
-    }
+    res.status(200).json("Question deleted succesfully !");
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({ error: error.message });
+  }
 });
 
 // // CETTE ROUTE SERT AU RESET DE LA BDD ENTRE 2 SESSIONS DE FORMATION. CELA NE FAIT PAS PARTIE DE L'EXERCICE.
