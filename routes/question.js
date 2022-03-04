@@ -105,6 +105,9 @@ const isAuthenticated = require("../middleware/isAuthenticated");
 
 // get all question of an Author
 router.get("/question/view", async (req, res) => {
+
+    console.log("route question/view OK");
+
   try {
     // const question = await Question.find({author: req.query.author})
     const question = await Question.find();
@@ -117,6 +120,8 @@ router.get("/question/view", async (req, res) => {
 
 // route qui permet de poster une nouvelle annonce
 router.post("/question/publish", isAuthenticated, async (req, res) => {
+
+    console.log("route question/publish OK");
 
     try {
 
@@ -177,16 +182,7 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
             };
 
             await newQuestion.save();
-            res.status(200).json({
-                _id: newQuestion._id,
-                questionText: newQuestion.questionText,
-                description: newQuestion.description,
-                latitude: newQuestion.latitude,
-                longitude: newQuestion.longitude,
-                linkWiki: newQuestion.linkWiki,
-                linkPlace: newQuestion.linkPlace,
-                author: newQuestion.author,
-            });
+            res.status(200).json({newQuestion});
 
         } else {
             res.status(401).json({ message: "Missing parameters" });

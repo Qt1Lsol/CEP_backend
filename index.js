@@ -40,6 +40,10 @@ app.get("/", (req, res) => {
   res.json("Bienvenue sur l'API de Culture En Poche");
 });
 
+app.get("*", (req, res) => {
+  res.json("Page not found");
+});
+
 app.use(function (err, req, res, next) {
   res.json({ error: err.message });
 });
