@@ -11,45 +11,28 @@ const encBase64 = require("crypto-js/enc-base64");
 // Import du package cloudinary
 const cloudinary = require("cloudinary").v2;
 
-// Package qui permet de générer des données aléatoires (ne pas en tenir compte, cela sert à réinitiliser la BDD entre 2 sessions de formation)
-// const faker = require("faker");
-// faker.locale = "fr";
-// const owners = require("../data/owners.json");
+// Import du middleware isUserAuthenticated
+const isUserAuthenticated = require("../middleware/isUserAuthenticated")
 
-// Import du model User et Offer
-// afin d'éviter des erreurs (notamment dues à d'eventuelles références entre les collections)
-// nous vous conseillons d'importer touts vos models dans toutes vos routes
-//
-// nous avons besoin de User pour effectuer une recherche dans la BDD
-// afin de savoir :
-// - si un utilisateur ayant le même email existe déjà ou pas (route signup)
-// - quel est l'utilisateur qui souhaite se connecter (route login)
+// Import du model User
 const User = require("../models/User");
-// const Offer = require("../models/Offer");
 
 // déclaration de la route signup
 router.post("/user/signup", async (req, res) => {
   try {
-    // Recherche dans la BDD. Est-ce qu'un utilisateur possède cet email ?
+
     const user = await User.findOne({ email: req.fields.email });
 
-    // Si oui, on renvoie un message et on ne procède pas à l'inscription
     if (user) {
       res.status(409).json({ message: "This email already has an account" });
-
-      // sinon, on passe à la suite...
     } else {
-      // l'utilisateur a-t-il bien envoyé les informations requises ?
+   
       if (req.fields.email && req.fields.password) {
-        // Si oui, on peut créer ce nouvel utilisateur
-
-        // Étape 1 : encrypter le mot de passe
-        // Générer le token et encrypter le mot de passe
+       
         const token = uid2(64);
         const salt = uid2(64);
         const hash = SHA256(req.fields.password + salt).toString(encBase64);
 
-        // Étape 2 : créer le nouvel utilisateur
         const newUser = new User({
           email: req.fields.email,
           token: token,
@@ -58,15 +41,14 @@ router.post("/user/signup", async (req, res) => {
 
         });
 
-        // Étape 3 : sauvegarder ce nouvel utilisateur dans la BDD
         await newUser.save();
         res.status(200).json({
           _id: newUser._id,
           email: newUser.email,
           token: newUser.token,
         });
+
       } else {
-        // l'utilisateur n'a pas envoyé les informations requises ?
         res.status(400).json({ message: "Missing parameters" });
       }
     }
@@ -81,10 +63,7 @@ router.post("/user/login", async (req, res) => {
     const user = await User.findOne({ email: req.fields.email });
 
     if (user) {
-      // Est-ce qu'il a rentré le bon mot de passe ?
-      // req.fields.password
-      // user.hash
-      // user.salt
+
       if (
         SHA256(req.fields.password + user.salt).toString(encBase64) ===
         user.hash
@@ -92,7 +71,7 @@ router.post("/user/login", async (req, res) => {
         res.status(200).json({
           _id: user._id,
           token: user.token,
-          account: user.account,
+          email: user.email,
         });
       } else {
         res.status(401).json({ error: "Unauthorized 444" });

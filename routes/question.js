@@ -118,14 +118,11 @@ router.get("/question/view", async (req, res) => {
 // route qui permet de poster une nouvelle annonce
 router.post("/question/publish", isAuthenticated, async (req, res) => {
 
-    // router.post("/question/publish", async (req, res) => {
-
-    // res.status(432).json({ message : req.fields });
-
     try {
 
         if (req.fields.questionText && req.fields.description) {
-            //         // Création de la nouvelle annonce (sans l'image et sans l'audio)
+
+            // Création de la nouvelle annonce (sans l'image et sans l'audio)
             const newQuestion = new Question({
                 questionText: req.fields.questionText,
                 description: req.fields.description,
@@ -145,10 +142,13 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
                 const resultPicture = await cloudinary.uploader.upload(
                     req.files.questionPicture.path,
                     {folder: 'CultureEnPoche/questionPicture'}
+                    
                     // {folder: `CultureEnPoche/questionPicture/${newQuestion._id}`}
                 );
 
+               
                 // ajout de l'image dans newQuestion
+                console.log("questionID",newQuestion._id);
                 newQuestion.questionPicture = resultPicture;
 
             };
@@ -175,25 +175,6 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
                 newQuestion.questionAudio = resultAudio;
 
             };
-
-            
-           
-
-            // // Vérifier le type de fichier son
-            // if (req.files.questionAudio.type.slice(0, 5) !== "audio") {
-            //     res.status(400).json({ message: "You must send an audio file !" });
-            // } else {
-            //     // Envoi de l'image à cloudinary
-            //     const resultAudio = await cloudinary.uploader.upload(
-            //         req.files.questionAudio.path,
-            //         {folder: 'CultureEnPoche/questionAudio'}
-            //     );
-
-            //     // ajout de l'image dans newQuestion
-
-            //     newQuestion.questionAudio = resultAudio;
-
-            // };
 
             await newQuestion.save();
             res.status(200).json({
