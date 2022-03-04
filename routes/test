@@ -9,7 +9,7 @@ const Author = require("../models/Author");
 
 // déclaration de la route signup
 router.get("/test", (req, res) => {
-    res.json("tests");
+  res.json("tests");
 });
 
 module.exports = router;
