@@ -32,9 +32,8 @@ const testRoutes = require("./routes/test");
 app.use(userRoutes);
 app.use(authorRoutes);
 app.use(questionRoutes);
-
+// console.log(userRoutes);
 app.use(testRoutes);
-
 
 app.get("/", (req, res) => {
   res.json("Bienvenue sur l'API de Culture En Poche");
@@ -48,7 +47,8 @@ app.use(function (err, req, res, next) {
   res.json({ error: err.message });
 });
 
-const server = app.listen(process.env.PORT, () => {
+// const server = app.listen(process.env.PORT, () => {
+const server = app.listen(4000, () => {
   console.log("Server started");
 });
 server.timeout = Number(process.env.SERVER_TIMEOUT) || 1000000;

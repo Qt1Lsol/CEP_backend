@@ -19,6 +19,7 @@ const Author = require("../models/Author");
 
 // Import du middleware isAuthenticated
 const isAuthenticated = require("../middleware/isAuthenticated");
+const isUserAuthenticated = require("../middleware/isAuthenticated");
 
 // Import des datas (ne pas en tenir compte, cela sert au reset de la BDD entre 2 sessions de formation)
 // const products = require("../data/products.json");
@@ -104,14 +105,25 @@ const isAuthenticated = require("../middleware/isAuthenticated");
 // });
 
 // get all question of an Author
-router.get("/question/view", async (req, res) => {
+router.get("/question/view", isAuthenticated, async (req, res) => {
   console.log("route question/view OK");
   console.log(req.query.search);
+  console.log("author view? ==>", req.author._id);
   try {
     let filters = {};
 
+    //requete permettant de prendre en compte les fitres ainsi que l'auteur de la question (and ... or ...)
     if (req.query.search) {
-      filters.questionText = new RegExp(req.query.search, "i");
+      filters.$and = [
+        {
+          $or: [
+            { questionText: new RegExp(req.query.search, "i") },
+            { description: new RegExp(req.query.search, "i") },
+          ],
+        },
+        { author: req.author._id },
+        // { latitude: new RegExp(Number(req.query.search, "i")) },
+      ];
     }
 
     // const question = await Question.find({author: req.query.author})
@@ -133,11 +145,14 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
       const newQuestion = new Question({
         questionText: req.fields.questionText,
         description: req.fields.description,
-        latitude: req.fields.latitude,
-        longitude: req.fields.longitude,
+        ageMin: req.fields.ageMin,
+        ageMax: req.fields.ageMax,
         linkWiki: req.fields.linkWiki,
         linkPlace: req.fields.linkPlace,
-
+        location: {
+          type: "Point",
+          coordinates: [req.fields.longitude, req.fields.latitude],
+        },
         author: req.author,
       });
 
@@ -160,7 +175,7 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
 
       console.log(req.files.questionAudio);
 
-      // Envoi de l'image à cloudinary il manque le if pour vérifier le type de fichier ...
+      // Envoi de l'image à cloudinary
 
       if (req.files.questionAudio.type.slice(0, 5) !== "audio") {
         res
@@ -188,6 +203,45 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
   } catch (error) {
     console.log(error.message);
     res.status(432).json({ message: error.message });
+  }
+});
+
+//
+//////////////////////////////////////// Route pour application mobile////////////////////////////////////////////
+//
+
+// get one question dependin of your gps coordinates
+router.get("/question/get", isUserAuthenticated, async (req, res) => {
+  console.log("route question/get OK");
+  // console.log("user ? ==>", req.author._id);
+
+  //USER:  _id, userAge,
+  //Coordonnée : Latitude Longitude
+
+  try {
+    let filters = {};
+
+    //requete permettant de prendre en compte les coordonnées gps de l'utilisateur ainsi que les filtres user
+
+    if (req.query.search) {
+      filters.$and = [
+        {
+          $or: [
+            { questionText: new RegExp(req.query.search, "i") },
+            { description: new RegExp(req.query.search, "i") },
+          ],
+        },
+        { author: req.author._id },
+        // { latitude: new RegExp(Number(req.query.search, "i")) },
+      ];
+    }
+
+    // const question = await Question.find({author: req.query.author})
+    const question = await Question.find(filters);
+    res.json(question);
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({ message: error.message });
   }
 });
 

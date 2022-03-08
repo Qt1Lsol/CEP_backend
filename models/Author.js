@@ -1,38 +1,44 @@
 const mongoose = require("mongoose");
 
-const Author = mongoose.model("Author", {
+const AuthorSchema = mongoose.Schema(
+  {
+    // entity: {
 
-  // entity: {
+    //   name: {
+    //     // required: true,
+    //     type: String,
+    //   },
+    //   site: {
+    //     // required: true,
+    //     type: String,
+    //   },
 
-  //   name: {
-  //     // required: true,
-  //     type: String,
-  //   },
-  //   site: {
-  //     // required: true,
-  //     type: String,
-  //   },
+    //   logo: Object,
 
-  //   logo: Object,
+    //   type: {
+    //     // required: true,
+    //     type: String,
+    //   },
+    // },
 
-  //   type: {
-  //     // required: true,
-  //     type: String,
-  //   },
-  // },
+    email: {
+      unique: true,
+      required: true,
+      type: String,
+    },
 
-  email: {
-    unique: true,
-    required: true,
-    type: String,
+    token: String,
+
+    hash: String,
+
+    salt: String,
   },
 
-  token: String,
+  {
+    timestamps: true,
+  }
+);
 
-  hash: String,
-
-  salt: String,
-
-});
+const Author = mongoose.model("Author", AuthorSchema);
 
 module.exports = Author;
