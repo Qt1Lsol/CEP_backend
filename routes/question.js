@@ -266,17 +266,35 @@ router.get("/question/getpicturealea", async (req, res) => {
 // get a question near me
 router.get("/question/get1", async (req, res) => {
   console.log("route question/get1 OK");
+  console.log("latitude =>", req.fields.latitude);
+  console.log("longitude =>", req.fields.longitude);
 
   try {
     // const question = await Question.find({author: req.query.author})
 
-    const sphere = await Question.createIndex({ loclocation: "2dsphere" });
+    // const sphere = await Question.createIndex({
+    //   location: "2dsphere",
+    // });2
 
-    const questionGet = await Question.aggregate([
-      // { $match: { a: 10 } },
-      { $sample: { size: 2 } },
-      { $project: { _id: 0, "questionPicture.secure_url": 1 } },
+    const sphere = await Question.createIndex({
+      location: "2dsphere",
+    }).aggregate([
+      {
+        $geoNear: {
+          near: { type: "Point", coordinates: [-73.9667, 40.78] },
+          spherical: true,
+          // query: { category: "Parks" },
+          // distanceField: "calcDistance",
+          distanceField: "5",
+        },
+      },
     ]);
+
+    // const questionGet = await Question.aggregate([
+    //   // { $match: { a: 10 } },
+    //   { $sample: { size: 2 } },
+    //   { $project: { _id: 0, "questionPicture.secure_url": 1 } },
+    // ]);
 
     res.json(questionGet);
   } catch (error) {
