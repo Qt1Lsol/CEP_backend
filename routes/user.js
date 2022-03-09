@@ -20,12 +20,18 @@ const User = require("../models/User");
 // déclaration de la route signup
 router.post("/user/signup", async (req, res) => {
   console.log("signup OK");
+  console.log("email 1 ==>", req.fields.email);
   try {
     const user = await User.findOne({ email: req.fields.email });
+
+    console.log("user ? =>", user);
 
     if (user) {
       res.status(409).json({ message: "This email already has an account" });
     } else {
+      console.log("email==>", req.fields.email);
+      console.log("password==>", req.fields.password);
+
       if (req.fields.email && req.fields.password) {
         const token = uid2(64);
         const salt = uid2(64);

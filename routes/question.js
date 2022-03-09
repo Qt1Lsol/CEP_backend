@@ -213,10 +213,9 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
 // get one question dependin of your gps coordinates
 router.get("/question/get", isUserAuthenticated, async (req, res) => {
   console.log("route question/get OK");
-  // console.log("user ? ==>", req.author._id);
+  console.log("user ? ==>", req.user._id);
 
-  //USER:  _id, userAge,
-  //Coordonnée : Latitude Longitude
+  db.mycoll.aggregate([{ $match: { a: 10 } }, { $sample: { size: 1 } }]);
 
   try {
     let filters = {};
@@ -239,6 +238,47 @@ router.get("/question/get", isUserAuthenticated, async (req, res) => {
     // const question = await Question.find({author: req.query.author})
     const question = await Question.find(filters);
     res.json(question);
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({ message: error.message });
+  }
+});
+
+// get 2 picture url randomly
+router.get("/question/getpicturealea", async (req, res) => {
+  console.log("route question/getpicturealea OK");
+
+  try {
+    // const question = await Question.find({author: req.query.author})
+    const questionAlea = await Question.aggregate([
+      // { $match: { a: 10 } },
+      { $sample: { size: 2 } },
+      { $project: { _id: 0, "questionPicture.secure_url": 1 } },
+    ]);
+
+    res.json(questionAlea);
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({ message: error.message });
+  }
+});
+
+// get a question near me
+router.get("/question/get1", async (req, res) => {
+  console.log("route question/get1 OK");
+
+  try {
+    // const question = await Question.find({author: req.query.author})
+
+    const sphere = await Question.createIndex({ loclocation: "2dsphere" });
+
+    const questionGet = await Question.aggregate([
+      // { $match: { a: 10 } },
+      { $sample: { size: 2 } },
+      { $project: { _id: 0, "questionPicture.secure_url": 1 } },
+    ]);
+
+    res.json(questionGet);
   } catch (error) {
     console.log(error.message);
     res.status(400).json({ message: error.message });
