@@ -70,6 +70,16 @@ const QuestionSchema = mongoose.Schema(
 );
 
 const Question = mongoose.model("Question", QuestionSchema);
+// const Question = mongoose.model(
+//   "Question",
+//   QuestionSchema.Index({
+//     location: "2dsphere",
+//   })
+// );
+
+// QuestionSchema.createIndex({
+//   location: "2dsphere",
+// });
 
 // const Question = mongoose.model("Question", {
 

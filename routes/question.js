@@ -272,22 +272,16 @@ router.get("/question/get1", async (req, res) => {
   try {
     // const question = await Question.find({author: req.query.author})
 
-    // const sphere = await Question.createIndex({
-    //   location: "2dsphere",
-    // });2
-
-    const sphere = await Question.createIndex({
-      location: "2dsphere",
-    }).aggregate([
+    const sphere2 = await Question.aggregate([
       {
         $geoNear: {
-          near: { type: "Point", coordinates: [-73.9667, 40.78] },
+          near: { type: "Point", coordinates: [22.78786, 40.78] },
           spherical: true,
-          // query: { category: "Parks" },
-          // distanceField: "calcDistance",
-          distanceField: "5",
+          distanceField: "dist.calculated",
+          includeLocs: "dist.location",
         },
       },
+      { $limit: 1 },
     ]);
 
     // const questionGet = await Question.aggregate([
@@ -296,7 +290,7 @@ router.get("/question/get1", async (req, res) => {
     //   { $project: { _id: 0, "questionPicture.secure_url": 1 } },
     // ]);
 
-    res.json(questionGet);
+    res.json(sphere2);
   } catch (error) {
     console.log(error.message);
     res.status(400).json({ message: error.message });
