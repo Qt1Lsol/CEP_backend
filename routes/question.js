@@ -269,16 +269,21 @@ router.get("/question/get1", async (req, res) => {
   console.log("latitude =>", req.fields.latitude);
   console.log("longitude =>", req.fields.longitude);
 
+  // les coordonnée doivent être au format dot
+  let $lat = req.fields.latitude;
+  let $long = req.fields.longitude;
+  // trouver la formule
+
   try {
     // const question = await Question.find({author: req.query.author})
 
     const sphere2 = await Question.aggregate([
       {
         $geoNear: {
-          near: { type: "Point", coordinates: [22.78786, 40.78] },
+          near: { type: "Point", coordinates: [$lat, 40.78] },
           spherical: true,
           distanceField: "dist.calculated",
-          includeLocs: "dist.location",
+          distanceMultiplier: 1 / 1000, //km
         },
       },
       { $limit: 1 },
