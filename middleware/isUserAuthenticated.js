@@ -1,7 +1,6 @@
 const User = require("../models/User");
 
 const isUserAuthenticated = async (req, res, next) => {
-
   console.log("isUserAuthenticated OK");
 
   // req.headers.authorization
@@ -9,9 +8,9 @@ const isUserAuthenticated = async (req, res, next) => {
     // console.log(req.headers.authorization);
     const token = req.headers.authorization.replace("Bearer ", "");
     // Chercher dans la BDD un user qui a ce token
-    console.log("token ==>",token);
-    const user = await User.findOne({ token: token }).select("_id");
-    console.log("user ? ==>",user);
+    console.log("token ==>", userToken);
+    const user = await User.findOne({ token: userToken }).select("_id");
+    console.log("user ? ==>", user);
 
     if (user) {
       req.user = user;

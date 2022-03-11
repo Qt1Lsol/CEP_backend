@@ -19,7 +19,7 @@ const Author = require("../models/Author");
 
 // Import du middleware isAuthenticated
 const isAuthenticated = require("../middleware/isAuthenticated");
-const isUserAuthenticated = require("../middleware/isAuthenticated");
+const isUserAuthenticated = require("../middleware/isUserAuthenticated");
 
 // Import des datas (ne pas en tenir compte, cela sert au reset de la BDD entre 2 sessions de formation)
 // const products = require("../data/products.json");
@@ -207,44 +207,10 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
 });
 
 //
-//////////////////////////////////////// Route pour application mobile////////////////////////////////////////////
+//////////////////////////////////////// Route pour application mobile ////////////////////////////////////////////
 //
 
-// get one question dependin of your gps coordinates
-router.get("/question/get", isUserAuthenticated, async (req, res) => {
-  console.log("route question/get OK");
-  console.log("user ? ==>", req.user._id);
-
-  db.mycoll.aggregate([{ $match: { a: 10 } }, { $sample: { size: 1 } }]);
-
-  try {
-    let filters = {};
-
-    //requete permettant de prendre en compte les coordonnées gps de l'utilisateur ainsi que les filtres user
-
-    if (req.query.search) {
-      filters.$and = [
-        {
-          $or: [
-            { questionText: new RegExp(req.query.search, "i") },
-            { description: new RegExp(req.query.search, "i") },
-          ],
-        },
-        { author: req.author._id },
-        // { latitude: new RegExp(Number(req.query.search, "i")) },
-      ];
-    }
-
-    // const question = await Question.find({author: req.query.author})
-    const question = await Question.find(filters);
-    res.json(question);
-  } catch (error) {
-    console.log(error.message);
-    res.status(400).json({ message: error.message });
-  }
-});
-
-// get 2 picture url randomly
+// ROUTE : get 2 picture url randomly OK but do not use !
 router.get("/question/getpicturealea", async (req, res) => {
   console.log("route question/getpicturealea OK");
 
@@ -263,24 +229,21 @@ router.get("/question/getpicturealea", async (req, res) => {
   }
 });
 
-// get a question near me
-router.get("/question/get1", async (req, res) => {
-  console.log("route question/get1 OK");
-  console.log("latitude =>", req.fields.latitude);
-  console.log("longitude =>", req.fields.longitude);
+// ROUTE :  get a question near me if exist
+router.post("/question/get", async (req, res) => {
+  console.log("route question/get OK"); // check if route is OK
+  console.log("latitude =>", req.fields.latitude); // check lat
+  console.log("longitude =>", req.fields.longitude); // check log
+  // console.log("longitude =>", props); // check log
 
-  // les coordonnée doivent être au format dot
-  let $lat = req.fields.latitude;
-  let $long = req.fields.longitude;
-  // trouver la formule
+  let lat = req.fields.latitude;
+  let long = req.fields.longitude;
 
   try {
-    // const question = await Question.find({author: req.query.author})
-
-    const sphere2 = await Question.aggregate([
+    const questionNear = await Question.aggregate([
       {
         $geoNear: {
-          near: { type: "Point", coordinates: [$lat, 40.78] },
+          near: { type: "Point", coordinates: [long, lat] },
           spherical: true,
           distanceField: "dist.calculated",
           distanceMultiplier: 1 / 1000, //km
@@ -289,16 +252,39 @@ router.get("/question/get1", async (req, res) => {
       { $limit: 1 },
     ]);
 
-    // const questionGet = await Question.aggregate([
-    //   // { $match: { a: 10 } },
-    //   { $sample: { size: 2 } },
-    //   { $project: { _id: 0, "questionPicture.secure_url": 1 } },
-    // ]);
+    if (questionNear) {
+      // vérifier la présence d'une question à proximité
 
-    res.json(sphere2);
+      try {
+        const questionAlea = await Question.aggregate([
+          // { $match: { a: 10 } }, // Je vais devoir filtrer sur l'age de l'utilisateur par la suite
+          { $sample: { size: 2 } },
+          { $project: { _id: 0, "questionPicture.secure_url": 1 } },
+        ]);
+
+        if (questionAlea) {
+          // j'ai une question et j'ai 2 images aléatoires alors je pull tout dans un obj que j'envoie au front
+
+          const newObj = {};
+
+          newObj["questionNear"] = questionNear;
+          newObj["questionAlea"] = questionAlea;
+
+          res.json(newObj);
+        } else {
+          res.status(400).json({ message: "No picture alea" }); // pas de question à proximité
+        }
+      } catch (error) {
+        console.log("catch questionAlea =>", error.message);
+        res.status(400).json({ message: error.message }); //plantage
+      }
+    } else {
+      // pas de question a proximité
+      res.status(400).json({ message: "No question" }); // pas de question à proximité
+    }
   } catch (error) {
-    console.log(error.message);
-    res.status(400).json({ message: error.message });
+    console.log("catch questionNear =>", error.message);
+    res.status(400).json({ message: error.message }); //plantage
   }
 });
 
