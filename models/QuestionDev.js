@@ -35,19 +35,6 @@ const QuestionSchema = mongoose.Schema(
       },
     },
 
-    locationAround: {
-      type: {
-        type: String, // Don't do `{ location: { type: String } }`
-        enum: ["Polygon"],
-        required: true,
-      },
-
-      coordinates: {
-        type: [[[Number]]],
-        required: true,
-      },
-    },
-
     linkWiki: {
       required: true,
       type: String,

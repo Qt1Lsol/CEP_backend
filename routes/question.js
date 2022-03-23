@@ -139,6 +139,53 @@ router.get("/question/view", isAuthenticated, async (req, res) => {
 router.post("/question/publish", isAuthenticated, async (req, res) => {
   console.log("route question/publish OK");
 
+  console.log("questionText=>", req.fields.questionText);
+  console.log("description=>", req.fields.description);
+  console.log("ageMin=>", req.fields.ageMin);
+  console.log("ageMax=>", req.fields.ageMax);
+  console.log("linkWiki=>", req.fields.linkWiki);
+  console.log("linkPlace=>", req.fields.linkPlace);
+  console.log("latitude=>", req.fields.latitude);
+  console.log("longitude=>", req.fields.longitude);
+  console.log("polygon=>", req.fields.polygon);
+
+  console.log("req OK");
+
+  //traitement du polygon
+
+  function numIsPair(n) {
+    return n & 1 ? false : true;
+  }
+
+  let getCoordsPolygon = (poly) => {
+    let coordsTab = [];
+    let res = poly.split(" ");
+
+    for (let i = 0; i < res.length; i++) {
+      res[i] = Number(res[i].replace(",", ""));
+
+      if (numIsPair(i)) {
+      } else {
+        coordsTab.push([res[i - 1], res[i]]);
+      }
+    }
+
+    coordsTab.push([res[0], res[1]]); //finir le polygon par le premier point
+
+    return coordsTab;
+    console.log("coordsTab=>", coordsTab);
+  };
+
+  let polygon = [];
+  try {
+    polygon = getCoordsPolygon(req.fields.polygon);
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({ message: error.message });
+  }
+
+  // fin de traitement du polygon
+
   try {
     if (req.fields.questionText && req.fields.description) {
       // Création de la nouvelle annonce (sans l'image et sans l'audio)
@@ -152,6 +199,18 @@ router.post("/question/publish", isAuthenticated, async (req, res) => {
         location: {
           type: "Point",
           coordinates: [req.fields.longitude, req.fields.latitude],
+        },
+        locationAround: {
+          type: "Polygon",
+          coordinates: polygon,
+          // coordinates: [
+          //   [
+          //     [0, 0],
+          //     [3, 6],
+          //     [6, 1],
+          //     [0, 0],
+          //   ],
+          // ],
         },
         author: req.author,
       });
@@ -230,6 +289,7 @@ router.get("/question/getpicturealea", async (req, res) => {
 });
 
 // ROUTE :  get a question near me if exist
+
 router.post("/question/get", async (req, res) => {
   console.log("route question/get OK"); // check if route is OK
   console.log("latitude =>", req.fields.latitude); // check lat
@@ -249,12 +309,13 @@ router.post("/question/get", async (req, res) => {
   try {
     const questionNear = await Question.aggregate([
       {
-        $geoNear: {
-          near: { type: "Point", coordinates: [long, lat] },
-          spherical: true,
-          distanceField: "dist.calculated",
-          distanceMultiplier: 1 / 1000, //km
-          maxDistance: maxDistanceNum,
+        locationAroud: {
+          $geoIntersects: {
+            $geometry: {
+              type: "Point",
+              coordinates: [long, lat],
+            },
+          },
         },
       },
       { $limit: 1 },
@@ -296,6 +357,74 @@ router.post("/question/get", async (req, res) => {
     res.status(400).json({ message: error.message }); //plantage
   }
 });
+
+// // ROUTE :  get a question near me if exist
+// router.post("/question/get", async (req, res) => {
+//   console.log("route question/get OK"); // check if route is OK
+//   console.log("latitude =>", req.fields.latitude); // check lat
+//   console.log("longitude =>", req.fields.longitude); // check log
+//   console.log("isCar =>", req.fields.isCar); // check log
+//   // console.log("longitude =>", props); // check log
+
+//   let lat = req.fields.latitude;
+//   let long = req.fields.longitude;
+
+//   if (req.fields.isCar) {
+//     maxDistanceNum = 200;
+//   } else {
+//     maxDistanceNum = 20;
+//   }
+
+//   try {
+//     const questionNear = await Question.aggregate([
+//       {
+//         $geoNear: {
+//           near: { type: "Point", coordinates: [long, lat] },
+//           spherical: true,
+//           distanceField: "dist.calculated",
+//           distanceMultiplier: 1 / 1000, //km
+//           maxDistance: maxDistanceNum,
+//         },
+//       },
+//       { $limit: 1 },
+//     ]);
+
+//     if (questionNear) {
+//       // vérifier la présence d'une question à proximité
+
+//       try {
+//         const questionAlea = await Question.aggregate([
+//           // { $match: { a: 10 } }, // Je vais devoir filtrer sur l'age de l'utilisateur par la suite
+//           //la 2ème aléatoire ne doit pas être identique à la première !
+//           { $sample: { size: 2 } },
+//           { $project: { _id: 0, "questionPicture.secure_url": 1 } },
+//         ]);
+
+//         if (questionAlea) {
+//           // j'ai une question et j'ai 2 images aléatoires alors je pull tout dans un obj que j'envoie au front
+
+//           const newObj = {};
+
+//           newObj["questionNear"] = questionNear;
+//           newObj["questionAlea"] = questionAlea;
+
+//           res.json(newObj);
+//         } else {
+//           res.status(400).json({ message: "No picture alea" }); // pas de question à proximité
+//         }
+//       } catch (error) {
+//         console.log("catch questionAlea =>", error.message);
+//         res.status(400).json({ message: error.message }); //plantage
+//       }
+//     } else {
+//       // pas de question a proximité
+//       res.status(400).json({ message: "No question" }); // pas de question à proximité
+//     }
+//   } catch (error) {
+//     console.log("catch questionNear =>", error.message);
+//     res.status(400).json({ message: error.message }); //plantage
+//   }
+// });
 
 router.post("/question/map", async (req, res) => {
   console.log("route question/map OK"); // check if route is OK
